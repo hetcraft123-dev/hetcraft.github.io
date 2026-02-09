@@ -41,6 +41,8 @@
             --accent-daily-glow: rgba(255, 145, 0, 0.25);
             --accent-wish: #ff4081;
             --accent-wish-glow: rgba(255, 64, 129, 0.3);
+            --accent-urgent: #ff1744;
+            --accent-urgent-glow: rgba(255, 23, 68, 0.4);
             --success: #00c853;
             --border: #252529;
             --border-daily: #2a2520;
@@ -102,7 +104,6 @@
             opacity: 0.8;
         }
 
-        /* Sync status indicator */
         .sync-status {
             display: inline-flex;
             align-items: center;
@@ -123,14 +124,8 @@
             background: var(--success);
         }
 
-        .sync-dot.offline {
-            background: #ff5252;
-        }
-
-        .sync-dot.syncing {
-            background: var(--accent-daily);
-            animation: pulse 1s infinite;
-        }
+        .sync-dot.offline { background: #ff5252; }
+        .sync-dot.syncing { background: var(--accent-daily); animation: pulse 1s infinite; }
 
         @keyframes pulse {
             0%, 100% { opacity: 1; }
@@ -159,13 +154,8 @@
             padding: 20px;
         }
 
-        .column.work {
-            border-color: rgba(0, 191, 165, 0.3);
-        }
-
-        .column.business {
-            border-color: rgba(170, 0, 255, 0.3);
-        }
+        .column.work { border-color: rgba(0, 191, 165, 0.3); }
+        .column.business { border-color: rgba(170, 0, 255, 0.3); }
 
         .column-header {
             display: flex;
@@ -174,9 +164,7 @@
             margin-bottom: 20px;
         }
 
-        .column-icon {
-            font-size: 1.2rem;
-        }
+        .column-icon { font-size: 1.2rem; }
 
         .column-title {
             font-family: 'JetBrains Mono', monospace;
@@ -188,9 +176,7 @@
         .column.work .column-title { color: var(--accent-work); }
         .column.business .column-title { color: var(--accent-business); }
 
-        .input-wrapper {
-            margin-bottom: 20px;
-        }
+        .input-wrapper { margin-bottom: 20px; }
 
         .input-container {
             display: flex;
@@ -239,9 +225,7 @@
             min-width: 0;
         }
 
-        input::placeholder {
-            color: var(--text-secondary);
-        }
+        input::placeholder { color: var(--text-secondary); }
 
         button {
             background: var(--accent);
@@ -263,9 +247,7 @@
             box-shadow: 0 4px 20px var(--accent-glow);
         }
 
-        button:active {
-            transform: scale(0.97);
-        }
+        button:active { transform: scale(0.97); }
 
         .column.work button { background: var(--accent-work); }
         .column.work button:hover { box-shadow: 0 4px 20px var(--accent-work-glow); }
@@ -275,6 +257,13 @@
         button.daily-btn:hover { box-shadow: 0 4px 20px var(--accent-daily-glow); }
         button.wish-btn { background: var(--accent-wish); }
         button.wish-btn:hover { box-shadow: 0 4px 20px var(--accent-wish-glow); }
+        
+        button.urgent-btn {
+            background: var(--accent-urgent);
+            font-size: 0.7rem;
+            padding: 10px 10px;
+        }
+        button.urgent-btn:hover { box-shadow: 0 4px 20px var(--accent-urgent-glow); }
 
         .tasks-header {
             display: flex;
@@ -332,6 +321,17 @@
             border-color: var(--border-daily);
         }
 
+        .task-item.urgent {
+            background: rgba(255, 23, 68, 0.08);
+            border-color: var(--accent-urgent);
+            animation: urgentPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes urgentPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 23, 68, 0); }
+            50% { box-shadow: 0 0 15px 2px rgba(255, 23, 68, 0.3); }
+        }
+
         @keyframes slideIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -340,6 +340,11 @@
         .task-item:hover {
             background: var(--bg-hover);
             border-color: #303035;
+        }
+
+        .task-item.urgent:hover {
+            background: rgba(255, 23, 68, 0.12);
+            border-color: var(--accent-urgent);
         }
 
         .task-item.completed {
@@ -385,6 +390,8 @@
         .column.work .checkbox:hover { border-color: var(--accent-work); }
         .column.business .checkbox:hover { border-color: var(--accent-business); }
         .daily-task .checkbox:hover { border-color: var(--accent-daily); }
+        .task-item.urgent .checkbox { border-color: var(--accent-urgent); }
+        .task-item.urgent .checkbox:hover { background: rgba(255, 23, 68, 0.2); }
         .task-item.completed .checkbox { background: var(--success); border-color: var(--success); }
 
         .checkmark {
@@ -402,6 +409,28 @@
             font-weight: 300;
             transition: all 0.3s ease;
             word-break: break-word;
+        }
+
+        .task-item.urgent .task-text {
+            color: var(--accent-urgent);
+            font-weight: 500;
+        }
+
+        .urgent-badge {
+            font-size: 0.6rem;
+            background: var(--accent-urgent);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            margin-right: 6px;
+            animation: blink 1s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
         }
 
         .task-text.editable {
@@ -661,11 +690,52 @@
             padding: 4px;
         }
 
+        /* Notification permission banner */
+        .notification-banner {
+            position: fixed;
+            top: calc(10px + var(--safe-top));
+            left: 20px;
+            right: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-urgent);
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: none;
+            z-index: 1002;
+            animation: slideDown 0.3s ease;
+        }
+
+        .notification-banner.show { display: flex; }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .notification-banner-text {
+            flex: 1;
+            font-size: 0.85rem;
+        }
+
+        .notification-banner-btn {
+            background: var(--accent-urgent);
+            padding: 8px 16px;
+            font-size: 0.75rem;
+        }
+
+        .notification-banner-close {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0 0 0 12px;
+        }
+
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: var(--bg-primary); }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
-        /* Loading overlay */
         .loading-overlay {
             position: fixed;
             top: 0;
@@ -680,10 +750,7 @@
             transition: opacity 0.3s ease;
         }
 
-        .loading-overlay.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
+        .loading-overlay.hidden { opacity: 0; pointer-events: none; }
 
         .loading-spinner {
             width: 40px;
@@ -694,15 +761,19 @@
             animation: spin 1s linear infinite;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-    <!-- Loading -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Notification permission banner -->
+    <div class="notification-banner" id="notificationBanner">
+        <span class="notification-banner-text">🔔 Activa las notificaciones para tareas urgentes</span>
+        <button class="notification-banner-btn" onclick="requestNotificationPermission()">Activar</button>
+        <button class="notification-banner-close" onclick="hideNotificationBanner()">✕</button>
     </div>
 
     <!-- PÁGINA PRINCIPAL -->
@@ -745,6 +816,7 @@
                     <div class="input-container">
                         <input type="text" id="workInput" placeholder="Nueva tarea..." autocomplete="off">
                         <button onclick="addTask('work')">+</button>
+                        <button class="urgent-btn" onclick="addTask('work', true)">🔴 Urgente</button>
                     </div>
                 </div>
                 <div class="tasks-header">
@@ -837,7 +909,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
         import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
-        // Firebase config
         const firebaseConfig = {
             apiKey: "AIzaSyDetXdN-ujotpEY7HNJMQB2JEOYooLxpkk",
             authDomain: "todo-hetcraft.firebaseapp.com",
@@ -855,16 +926,148 @@
         let dailyTasks = [];
         let wishlist = [];
         let isOnline = navigator.onLine;
+        let urgentInterval = null;
+        let originalTitle = "Tareas";
+        let titleBlinking = false;
 
         const today = new Date();
         const todayStr = today.toISOString().split('T')[0];
+        const URGENT_INTERVAL = 20 * 60 * 1000; // 20 minutes
+
+        // ==================== AUDIO ====================
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playUrgentSound() {
+            // Unlock audio context on iOS
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 880;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.5);
+
+            // Second beep
+            setTimeout(() => {
+                const osc2 = audioContext.createOscillator();
+                const gain2 = audioContext.createGain();
+                osc2.connect(gain2);
+                gain2.connect(audioContext.destination);
+                osc2.frequency.value = 988;
+                osc2.type = 'sine';
+                gain2.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gain2.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                osc2.start(audioContext.currentTime);
+                osc2.stop(audioContext.currentTime + 0.5);
+            }, 200);
+        }
+
+        // ==================== NOTIFICATIONS ====================
+        function checkNotificationPermission() {
+            if ('Notification' in window && Notification.permission === 'default') {
+                setTimeout(() => {
+                    document.getElementById('notificationBanner').classList.add('show');
+                }, 2000);
+            }
+        }
+
+        window.requestNotificationPermission = async function() {
+            if ('Notification' in window) {
+                const permission = await Notification.requestPermission();
+                hideNotificationBanner();
+            }
+        };
+
+        window.hideNotificationBanner = function() {
+            document.getElementById('notificationBanner').classList.remove('show');
+        };
+
+        function sendNotification(title, body) {
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification(title, {
+                    body: body,
+                    icon: '🔴',
+                    badge: '🔴',
+                    tag: 'urgent-task',
+                    renotify: true
+                });
+            }
+        }
+
+        // ==================== TITLE BLINK ====================
+        function startTitleBlink() {
+            if (titleBlinking) return;
+            titleBlinking = true;
+            
+            let isAlert = false;
+            const blinkInterval = setInterval(() => {
+                if (!titleBlinking) {
+                    clearInterval(blinkInterval);
+                    document.title = originalTitle;
+                    return;
+                }
+                document.title = isAlert ? "⚠️ URGENTE - Tarea pendiente!" : originalTitle;
+                isAlert = !isAlert;
+            }, 1000);
+        }
+
+        function stopTitleBlink() {
+            titleBlinking = false;
+            document.title = originalTitle;
+        }
+
+        // ==================== URGENT TASKS CHECKER ====================
+        function checkUrgentTasks() {
+            const urgentTasks = tasks.work.filter(t => t.urgent);
+            
+            if (urgentTasks.length > 0) {
+                // Play sound
+                playUrgentSound();
+                
+                // Send notification
+                const taskNames = urgentTasks.map(t => t.text).join(', ');
+                sendNotification('🔴 Tareas urgentes pendientes', taskNames);
+                
+                // Blink title if tab not focused
+                if (document.hidden) {
+                    startTitleBlink();
+                }
+            } else {
+                stopTitleBlink();
+            }
+        }
+
+        function startUrgentChecker() {
+            // Initial check after 1 second
+            setTimeout(checkUrgentTasks, 1000);
+            
+            // Then every 20 minutes
+            urgentInterval = setInterval(checkUrgentTasks, URGENT_INTERVAL);
+        }
+
+        // Stop blinking when tab becomes visible
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                stopTitleBlink();
+            }
+        });
 
         // ==================== DOM ====================
         const syncDot = document.getElementById('syncDot');
         const syncText = document.getElementById('syncText');
         const loadingOverlay = document.getElementById('loadingOverlay');
 
-        // Date display
         const options = { weekday: 'long', day: 'numeric', month: 'long' };
         document.getElementById('currentDate').textContent = today.toLocaleDateString('es-ES', options);
 
@@ -872,7 +1075,6 @@
         function updateSyncStatus(status) {
             syncDot.className = 'sync-dot';
             if (status === 'online') {
-                syncDot.classList.remove('offline', 'syncing');
                 syncText.textContent = 'Sincronizado';
             } else if (status === 'offline') {
                 syncDot.classList.add('offline');
@@ -921,12 +1123,15 @@
             } else {
                 categoryTasks.forEach((task) => {
                     const taskEl = document.createElement('div');
-                    taskEl.className = 'task-item';
+                    taskEl.className = `task-item${task.urgent ? ' urgent' : ''}`;
                     taskEl.innerHTML = `
                         <div class="checkbox" onclick="completeTask('${category}', '${task.id}')">
                             <span class="checkmark">✓</span>
                         </div>
-                        <span class="task-text">${escapeHtml(task.text)}</span>
+                        <span class="task-text">
+                            ${task.urgent ? '<span class="urgent-badge">URGENTE</span>' : ''}
+                            ${escapeHtml(task.text)}
+                        </span>
                         <span class="task-time">${task.time || ''}</span>
                     `;
                     list.appendChild(taskEl);
@@ -999,7 +1204,6 @@
 
         // ==================== FIREBASE LISTENERS ====================
         function setupListeners() {
-            // Tasks listeners
             ['personal', 'work', 'business'].forEach(category => {
                 const q = query(collection(db, `tasks_${category}`), orderBy('createdAt', 'desc'));
                 onSnapshot(q, (snapshot) => {
@@ -1012,7 +1216,6 @@
                 });
             });
 
-            // Daily tasks listener
             const dailyQuery = query(collection(db, 'dailyTasks'), orderBy('createdAt', 'asc'));
             onSnapshot(dailyQuery, (snapshot) => {
                 dailyTasks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -1020,14 +1223,12 @@
                 renderDailyTasks();
             });
 
-            // Wishlist listener
             const wishQuery = query(collection(db, 'wishlist'), orderBy('createdAt', 'desc'));
             onSnapshot(wishQuery, (snapshot) => {
                 wishlist = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 renderWishlist();
             });
 
-            // Hide loading
             setTimeout(() => loadingOverlay.classList.add('hidden'), 500);
         }
 
@@ -1045,7 +1246,7 @@
         }
 
         // ==================== TASK OPERATIONS ====================
-        window.addTask = async function(category) {
+        window.addTask = async function(category, urgent = false) {
             const input = document.getElementById(`${category}Input`);
             const text = input.value.trim();
             if (!text) return;
@@ -1054,15 +1255,26 @@
             const time = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
             const id = generateId();
 
-            updateSyncStatus('syncing');
-            await setDoc(doc(db, `tasks_${category}`, id), {
+            const taskData = {
                 text,
                 time,
                 createdAt: Date.now()
-            });
+            };
+
+            if (category === 'work' && urgent) {
+                taskData.urgent = true;
+            }
+
+            updateSyncStatus('syncing');
+            await setDoc(doc(db, `tasks_${category}`, id), taskData);
 
             input.value = '';
             vibrate();
+            
+            // Unlock audio on first interaction
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
         };
 
         window.completeTask = async function(category, id) {
@@ -1078,6 +1290,12 @@
                 setTimeout(async () => {
                     updateSyncStatus('syncing');
                     await deleteDoc(doc(db, `tasks_${category}`, id));
+                    
+                    // Check if no more urgent tasks
+                    const remainingUrgent = tasks.work.filter(t => t.urgent && t.id !== id);
+                    if (remainingUrgent.length === 0) {
+                        stopTitleBlink();
+                    }
                 }, 3000);
             }
         };
@@ -1206,6 +1424,8 @@
 
         // ==================== INIT ====================
         setupListeners();
+        startUrgentChecker();
+        checkNotificationPermission();
     </script>
 </body>
 </html>
