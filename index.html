@@ -11,26 +11,9 @@
     <meta name="theme-color" content="#0a0a0b">
     <meta name="description" content="Tu lista de tareas personal">
     
-    <!-- iOS Icons -->
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230a0a0b' width='100' height='100' rx='20'/><text x='50' y='62' font-size='50' text-anchor='middle' fill='%233d5afe'>✓</text></svg>">
     
     <title>Tareas</title>
-    
-    <!-- Manifest embebido como data URI -->
-    <link rel="manifest" href="data:application/json,{
-        &quot;name&quot;: &quot;Tareas&quot;,
-        &quot;short_name&quot;: &quot;Tareas&quot;,
-        &quot;description&quot;: &quot;Tu lista de tareas personal&quot;,
-        &quot;start_url&quot;: &quot;.&quot;,
-        &quot;display&quot;: &quot;standalone&quot;,
-        &quot;background_color&quot;: &quot;%230a0a0b&quot;,
-        &quot;theme_color&quot;: &quot;%230a0a0b&quot;,
-        &quot;icons&quot;: [{
-            &quot;src&quot;: &quot;data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230a0a0b' width='100' height='100' rx='20'/><text x='50' y='62' font-size='50' text-anchor='middle' fill='%233d5afe'>✓</text></svg>&quot;,
-            &quot;sizes&quot;: &quot;any&quot;,
-            &quot;type&quot;: &quot;image/svg+xml&quot;
-        }]
-    }">
 
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@300;500&display=swap" rel="stylesheet">
     <style>
@@ -78,7 +61,6 @@
             overscroll-behavior: none;
         }
 
-        /* Páginas */
         .page {
             display: none;
             animation: fadeIn 0.3s ease;
@@ -118,6 +100,41 @@
             font-size: 0.75rem;
             margin-top: 10px;
             opacity: 0.8;
+        }
+
+        /* Sync status indicator */
+        .sync-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            padding: 4px 10px;
+            background: var(--bg-secondary);
+            border-radius: 20px;
+        }
+
+        .sync-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+
+        .sync-dot.offline {
+            background: #ff5252;
+        }
+
+        .sync-dot.syncing {
+            background: var(--accent-daily);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
         }
 
         .columns-container {
@@ -167,17 +184,9 @@
             font-weight: 600;
         }
 
-        .column.personal .column-title {
-            color: var(--accent);
-        }
-
-        .column.work .column-title {
-            color: var(--accent-work);
-        }
-
-        .column.business .column-title {
-            color: var(--accent-business);
-        }
+        .column.personal .column-title { color: var(--accent); }
+        .column.work .column-title { color: var(--accent-work); }
+        .column.business .column-title { color: var(--accent-business); }
 
         .input-wrapper {
             margin-bottom: 20px;
@@ -225,7 +234,7 @@
             outline: none;
             color: var(--text-primary);
             font-family: 'Outfit', sans-serif;
-            font-size: 16px; /* Previene zoom en iOS */
+            font-size: 16px;
             padding: 10px 12px;
             min-width: 0;
         }
@@ -258,37 +267,14 @@
             transform: scale(0.97);
         }
 
-        .column.work button {
-            background: var(--accent-work);
-        }
-
-        .column.work button:hover {
-            box-shadow: 0 4px 20px var(--accent-work-glow);
-        }
-
-        .column.business button {
-            background: var(--accent-business);
-        }
-
-        .column.business button:hover {
-            box-shadow: 0 4px 20px var(--accent-business-glow);
-        }
-
-        button.daily-btn {
-            background: var(--accent-daily);
-        }
-
-        button.daily-btn:hover {
-            box-shadow: 0 4px 20px var(--accent-daily-glow);
-        }
-
-        button.wish-btn {
-            background: var(--accent-wish);
-        }
-
-        button.wish-btn:hover {
-            box-shadow: 0 4px 20px var(--accent-wish-glow);
-        }
+        .column.work button { background: var(--accent-work); }
+        .column.work button:hover { box-shadow: 0 4px 20px var(--accent-work-glow); }
+        .column.business button { background: var(--accent-business); }
+        .column.business button:hover { box-shadow: 0 4px 20px var(--accent-business-glow); }
+        button.daily-btn { background: var(--accent-daily); }
+        button.daily-btn:hover { box-shadow: 0 4px 20px var(--accent-daily-glow); }
+        button.wish-btn { background: var(--accent-wish); }
+        button.wish-btn:hover { box-shadow: 0 4px 20px var(--accent-wish-glow); }
 
         .tasks-header {
             display: flex;
@@ -306,13 +292,8 @@
             letter-spacing: 2px;
         }
 
-        .tasks-title.daily {
-            color: var(--accent-daily);
-        }
-
-        .tasks-title.wish {
-            color: var(--accent-wish);
-        }
+        .tasks-title.daily { color: var(--accent-daily); }
+        .tasks-title.wish { color: var(--accent-wish); }
 
         .tasks-count {
             font-family: 'JetBrains Mono', monospace;
@@ -323,25 +304,10 @@
             border-radius: 20px;
         }
 
-        .column.work .tasks-count {
-            color: var(--accent-work);
-            background: rgba(0, 191, 165, 0.15);
-        }
-
-        .column.business .tasks-count {
-            color: var(--accent-business);
-            background: rgba(170, 0, 255, 0.15);
-        }
-
-        .tasks-count.daily {
-            color: var(--accent-daily);
-            background: rgba(255, 145, 0, 0.15);
-        }
-
-        .tasks-count.wish {
-            color: var(--accent-wish);
-            background: rgba(255, 64, 129, 0.15);
-        }
+        .column.work .tasks-count { color: var(--accent-work); background: rgba(0, 191, 165, 0.15); }
+        .column.business .tasks-count { color: var(--accent-business); background: rgba(170, 0, 255, 0.15); }
+        .tasks-count.daily { color: var(--accent-daily); background: rgba(255, 145, 0, 0.15); }
+        .tasks-count.wish { color: var(--accent-wish); background: rgba(255, 64, 129, 0.15); }
 
         .tasks-list {
             display: flex;
@@ -366,20 +332,9 @@
             border-color: var(--border-daily);
         }
 
-        .task-item.wish-item {
-            background: rgba(255, 64, 129, 0.05);
-            border-color: rgba(255, 64, 129, 0.2);
-        }
-
         @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .task-item:hover {
@@ -403,33 +358,14 @@
         }
 
         @keyframes fadeOut {
-            0% {
-                opacity: 1;
-                transform: translateX(0) scale(1);
-            }
-            50% {
-                opacity: 0.5;
-                transform: translateX(20px) scale(0.98);
-            }
-            100% {
-                opacity: 0;
-                transform: translateX(40px) scale(0.95);
-                height: 0;
-                padding: 0;
-                margin: 0;
-                border: none;
-            }
+            0% { opacity: 1; transform: translateX(0) scale(1); }
+            50% { opacity: 0.5; transform: translateX(20px) scale(0.98); }
+            100% { opacity: 0; transform: translateX(40px) scale(0.95); height: 0; padding: 0; margin: 0; border: none; }
         }
 
         @keyframes fadeOutDaily {
-            0% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            100% {
-                opacity: 0.3;
-                transform: scale(0.98);
-            }
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0.3; transform: scale(0.98); }
         }
 
         .checkbox {
@@ -445,26 +381,11 @@
             flex-shrink: 0;
         }
 
-        .checkbox:hover {
-            border-color: var(--accent);
-        }
-
-        .column.work .checkbox:hover {
-            border-color: var(--accent-work);
-        }
-
-        .column.business .checkbox:hover {
-            border-color: var(--accent-business);
-        }
-
-        .daily-task .checkbox:hover {
-            border-color: var(--accent-daily);
-        }
-
-        .task-item.completed .checkbox {
-            background: var(--success);
-            border-color: var(--success);
-        }
+        .checkbox:hover { border-color: var(--accent); }
+        .column.work .checkbox:hover { border-color: var(--accent-work); }
+        .column.business .checkbox:hover { border-color: var(--accent-business); }
+        .daily-task .checkbox:hover { border-color: var(--accent-daily); }
+        .task-item.completed .checkbox { background: var(--success); border-color: var(--success); }
 
         .checkmark {
             opacity: 0;
@@ -473,9 +394,7 @@
             transition: all 0.2s ease;
         }
 
-        .task-item.completed .checkmark {
-            opacity: 1;
-        }
+        .task-item.completed .checkmark { opacity: 1; }
 
         .task-text {
             flex: 1;
@@ -490,17 +409,10 @@
             padding: 2px 6px;
             margin: -2px -6px;
             border-radius: 4px;
-            transition: background 0.2s ease;
         }
 
-        .task-text.editable:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .task-text.editable:focus {
-            outline: none;
-            background: rgba(255, 145, 0, 0.1);
-        }
+        .task-text.editable:hover { background: rgba(255, 255, 255, 0.05); }
+        .task-text.editable:focus { outline: none; background: rgba(255, 145, 0, 0.1); }
 
         .task-time {
             font-family: 'JetBrains Mono', monospace;
@@ -509,10 +421,7 @@
             opacity: 0.6;
         }
 
-        .task-actions {
-            display: flex;
-            gap: 6px;
-        }
+        .task-actions { display: flex; gap: 6px; }
 
         .action-btn {
             background: transparent;
@@ -538,25 +447,10 @@
             color: var(--text-secondary);
         }
 
-        .empty-state.small {
-            padding: 20px 16px;
-        }
-
-        .empty-icon {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            opacity: 0.3;
-        }
-
-        .empty-icon.small {
-            font-size: 1.5rem;
-            margin-bottom: 8px;
-        }
-
-        .empty-text {
-            font-size: 0.85rem;
-            font-weight: 300;
-        }
+        .empty-state.small { padding: 20px 16px; }
+        .empty-icon { font-size: 2rem; margin-bottom: 10px; opacity: 0.3; }
+        .empty-icon.small { font-size: 1.5rem; margin-bottom: 8px; }
+        .empty-text { font-size: 0.85rem; font-weight: 300; }
 
         .daily-section {
             background: linear-gradient(180deg, rgba(255, 145, 0, 0.03) 0%, transparent 100%);
@@ -574,13 +468,8 @@
             margin-bottom: 20px;
         }
 
-        .daily-icon {
-            font-size: 1.2rem;
-        }
-
-        .daily-title-group {
-            flex: 1;
-        }
+        .daily-icon { font-size: 1.2rem; }
+        .daily-title-group { flex: 1; }
 
         .daily-main-title {
             font-family: 'JetBrains Mono', monospace;
@@ -603,12 +492,9 @@
         }
 
         @media (max-width: 700px) {
-            .daily-content {
-                grid-template-columns: 1fr;
-            }
+            .daily-content { grid-template-columns: 1fr; }
         }
 
-        /* Botón flotante WishList */
         .floating-btn {
             position: fixed;
             bottom: calc(24px + var(--safe-bottom));
@@ -630,24 +516,11 @@
             gap: 8px;
         }
 
-        .floating-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px var(--accent-wish-glow);
-        }
+        .floating-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 30px var(--accent-wish-glow); }
+        .floating-btn:active { transform: scale(0.95); }
+        .floating-btn .arrow { transition: transform 0.3s ease; }
+        .floating-btn:hover .arrow { transform: translateX(4px); }
 
-        .floating-btn:active {
-            transform: scale(0.95);
-        }
-
-        .floating-btn .arrow {
-            transition: transform 0.3s ease;
-        }
-
-        .floating-btn:hover .arrow {
-            transform: translateX(4px);
-        }
-
-        /* WishList Page */
         .wishlist-container {
             max-width: 600px;
             margin: 0 auto;
@@ -666,21 +539,10 @@
             margin-bottom: 24px;
         }
 
-        .back-btn:hover {
-            border-color: var(--text-secondary);
-            color: var(--text-primary);
-            box-shadow: none;
-            transform: none;
-        }
+        .back-btn:hover { border-color: var(--text-secondary); color: var(--text-primary); box-shadow: none; transform: none; }
 
-        .wish-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .wish-header h1 {
-            color: var(--accent-wish);
-        }
+        .wish-header { text-align: center; margin-bottom: 30px; }
+        .wish-header h1 { color: var(--accent-wish); }
 
         .wish-form {
             background: var(--bg-secondary);
@@ -705,9 +567,7 @@
             gap: 10px;
         }
 
-        .wish-inputs .input-container {
-            background: var(--bg-primary);
-        }
+        .wish-inputs .input-container { background: var(--bg-primary); }
 
         .add-wish-btn {
             width: 100%;
@@ -716,9 +576,7 @@
             margin-top: 6px;
         }
 
-        .add-wish-btn:hover {
-            box-shadow: 0 4px 20px var(--accent-wish-glow);
-        }
+        .add-wish-btn:hover { box-shadow: 0 4px 20px var(--accent-wish-glow); }
 
         .wish-item {
             display: flex;
@@ -732,27 +590,10 @@
             animation: slideIn 0.3s ease;
         }
 
-        .wish-item:hover {
-            background: var(--bg-hover);
-            border-color: rgba(255, 64, 129, 0.3);
-        }
-
-        .wish-icon {
-            font-size: 1.4rem;
-            flex-shrink: 0;
-        }
-
-        .wish-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .wish-title {
-            font-size: 0.95rem;
-            font-weight: 500;
-            margin-bottom: 4px;
-            word-break: break-word;
-        }
+        .wish-item:hover { background: var(--bg-hover); border-color: rgba(255, 64, 129, 0.3); }
+        .wish-icon { font-size: 1.4rem; flex-shrink: 0; }
+        .wish-info { flex: 1; min-width: 0; }
+        .wish-title { font-size: 0.95rem; font-weight: 500; margin-bottom: 4px; word-break: break-word; }
 
         .wish-url {
             font-family: 'JetBrains Mono', monospace;
@@ -766,15 +607,8 @@
             text-overflow: ellipsis;
         }
 
-        .wish-url:hover {
-            opacity: 1;
-            text-decoration: underline;
-        }
-
-        .wish-actions {
-            display: flex;
-            gap: 6px;
-        }
+        .wish-url:hover { opacity: 1; text-decoration: underline; }
+        .wish-actions { display: flex; gap: 6px; }
 
         .wish-action-btn {
             background: transparent;
@@ -787,22 +621,10 @@
             border-radius: 6px;
         }
 
-        .wish-action-btn:hover {
-            transform: none;
-            box-shadow: none;
-        }
+        .wish-action-btn:hover { transform: none; box-shadow: none; }
+        .wish-action-btn.open:hover { color: var(--accent-wish); background: rgba(255, 64, 129, 0.1); }
+        .wish-action-btn.delete:hover { color: #ff5252; background: rgba(255, 82, 82, 0.1); }
 
-        .wish-action-btn.open:hover {
-            color: var(--accent-wish);
-            background: rgba(255, 64, 129, 0.1);
-        }
-
-        .wish-action-btn.delete:hover {
-            color: #ff5252;
-            background: rgba(255, 82, 82, 0.1);
-        }
-
-        /* Install prompt */
         .install-prompt {
             position: fixed;
             bottom: calc(90px + var(--safe-bottom));
@@ -817,26 +639,15 @@
             animation: slideUp 0.3s ease;
         }
 
-        .install-prompt.show {
-            display: block;
-        }
+        .install-prompt.show { display: block; }
 
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .install-prompt-text {
-            font-size: 0.85rem;
-            margin-bottom: 12px;
-            line-height: 1.5;
-        }
-
-        .install-prompt-steps {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
-        }
+        .install-prompt-text { font-size: 0.85rem; margin-bottom: 12px; line-height: 1.5; }
+        .install-prompt-steps { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 12px; }
 
         .install-prompt-close {
             position: absolute;
@@ -850,32 +661,63 @@
             padding: 4px;
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
-        ::-webkit-scrollbar-track {
+        /* Loading overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 2px;
+        .loading-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <!-- PÁGINA PRINCIPAL: TAREAS -->
+    <!-- Loading -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- PÁGINA PRINCIPAL -->
     <div id="tasksPage" class="page active">
         <header class="main-header">
             <h1>// tareas</h1>
             <p class="subtitle">organiza tu día</p>
             <p class="date" id="currentDate"></p>
+            <div class="sync-status">
+                <div class="sync-dot" id="syncDot"></div>
+                <span id="syncText">Conectando...</span>
+            </div>
         </header>
 
         <div class="columns-container">
-            <!-- Personal -->
             <div class="column personal">
                 <div class="column-header">
                     <span class="column-icon">👤</span>
@@ -894,7 +736,6 @@
                 <div class="tasks-list" id="personalList"></div>
             </div>
 
-            <!-- Trabajo -->
             <div class="column work">
                 <div class="column-header">
                     <span class="column-icon">💼</span>
@@ -913,7 +754,6 @@
                 <div class="tasks-list" id="workList"></div>
             </div>
 
-            <!-- Emprendimiento -->
             <div class="column business">
                 <div class="column-header">
                     <span class="column-icon">🚀</span>
@@ -933,7 +773,6 @@
             </div>
         </div>
 
-        <!-- Tareas diarias -->
         <div class="daily-section">
             <div class="daily-header">
                 <span class="daily-icon">🔄</span>
@@ -962,15 +801,11 @@
     <!-- PÁGINA WISHLIST -->
     <div id="wishlistPage" class="page">
         <div class="wishlist-container">
-            <button class="back-btn" onclick="showPage('tasksPage')">
-                ← Volver
-            </button>
-
+            <button class="back-btn" onclick="showPage('tasksPage')">← Volver</button>
             <header class="wish-header">
                 <h1>🎁 WishList</h1>
                 <p class="subtitle">cosas que quiero comprar</p>
             </header>
-
             <div class="wish-form">
                 <div class="wish-form-title">Agregar deseo</div>
                 <div class="wish-inputs">
@@ -983,110 +818,75 @@
                     <button class="add-wish-btn" onclick="addWish()">Agregar</button>
                 </div>
             </div>
-
             <div class="tasks-header">
                 <span class="tasks-title wish">Mi lista</span>
                 <span class="tasks-count wish" id="wishCount">0</span>
             </div>
-
             <div class="tasks-list" id="wishList"></div>
         </div>
     </div>
 
-    <!-- Install prompt para iOS -->
     <div class="install-prompt" id="installPrompt">
         <button class="install-prompt-close" onclick="hideInstallPrompt()">✕</button>
-        <div class="install-prompt-text">
-            📱 <strong>Instala esta app</strong> en tu iPhone:
-        </div>
-        <div class="install-prompt-steps">
-            1. Toca <strong>Compartir</strong> (□↑)<br>
-            2. Selecciona <strong>"Agregar a Inicio"</strong>
-        </div>
+        <div class="install-prompt-text">📱 <strong>Instala esta app</strong> en tu iPhone:</div>
+        <div class="install-prompt-steps">1. Toca <strong>Compartir</strong> (□↑)<br>2. Selecciona <strong>"Agregar a Inicio"</strong></div>
     </div>
 
-    <script>
-        // ==================== PWA / INSTALL ====================
-        function isStandalone() {
-            return window.navigator.standalone === true || 
-                   window.matchMedia('(display-mode: standalone)').matches;
-        }
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+        import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
-        function isIOS() {
-            return /iPad|iPhone|iPod/.test(navigator.userAgent);
-        }
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyDetXdN-ujotpEY7HNJMQB2JEOYooLxpkk",
+            authDomain: "todo-hetcraft.firebaseapp.com",
+            projectId: "todo-hetcraft",
+            storageBucket: "todo-hetcraft.firebasestorage.app",
+            messagingSenderId: "225738970824",
+            appId: "1:225738970824:web:f3a5c8432a9c3c6595f7fd"
+        };
 
-        function showInstallPrompt() {
-            if (isIOS() && !isStandalone() && !localStorage.getItem('installPromptDismissed')) {
-                setTimeout(() => {
-                    document.getElementById('installPrompt').classList.add('show');
-                }, 2000);
-            }
-        }
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-        function hideInstallPrompt() {
-            document.getElementById('installPrompt').classList.remove('show');
-            localStorage.setItem('installPromptDismissed', 'true');
-        }
+        // ==================== STATE ====================
+        let tasks = { personal: [], work: [], business: [] };
+        let dailyTasks = [];
+        let wishlist = [];
+        let isOnline = navigator.onLine;
 
-        // ==================== NAVEGACIÓN ====================
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            window.scrollTo(0, 0);
-        }
-
-        // ==================== ELEMENTOS DOM ====================
-        const currentDate = document.getElementById('currentDate');
-        const dailyTaskInput = document.getElementById('dailyTaskInput');
-        const dailyTasksList = document.getElementById('dailyTasksList');
-        const dailyTasksCount = document.getElementById('dailyTasksCount');
-        const wishTitleInput = document.getElementById('wishTitleInput');
-        const wishUrlInput = document.getElementById('wishUrlInput');
-        const wishListEl = document.getElementById('wishList');
-        const wishCountEl = document.getElementById('wishCount');
-
-        // ==================== FECHA ====================
         const today = new Date();
         const todayStr = today.toISOString().split('T')[0];
+
+        // ==================== DOM ====================
+        const syncDot = document.getElementById('syncDot');
+        const syncText = document.getElementById('syncText');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+
+        // Date display
         const options = { weekday: 'long', day: 'numeric', month: 'long' };
-        currentDate.textContent = today.toLocaleDateString('es-ES', options);
+        document.getElementById('currentDate').textContent = today.toLocaleDateString('es-ES', options);
 
-        // ==================== DATOS ====================
-        let tasks = {
-            personal: JSON.parse(localStorage.getItem('tasks_personal')) || [],
-            work: JSON.parse(localStorage.getItem('tasks_work')) || [],
-            business: JSON.parse(localStorage.getItem('tasks_business')) || []
-        };
-        let dailyTasks = JSON.parse(localStorage.getItem('dailyTasks')) || [];
-        let lastDailyReset = localStorage.getItem('lastDailyReset') || '';
-        let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-
-        // ==================== RESET DIARIO ====================
-        function checkDailyReset() {
-            if (lastDailyReset !== todayStr) {
-                dailyTasks = dailyTasks.map(task => ({ ...task, completedToday: false }));
-                lastDailyReset = todayStr;
-                localStorage.setItem('lastDailyReset', lastDailyReset);
-                saveDailyTasks();
+        // ==================== SYNC STATUS ====================
+        function updateSyncStatus(status) {
+            syncDot.className = 'sync-dot';
+            if (status === 'online') {
+                syncDot.classList.remove('offline', 'syncing');
+                syncText.textContent = 'Sincronizado';
+            } else if (status === 'offline') {
+                syncDot.classList.add('offline');
+                syncText.textContent = 'Sin conexión';
+            } else if (status === 'syncing') {
+                syncDot.classList.add('syncing');
+                syncText.textContent = 'Sincronizando...';
             }
         }
-        checkDailyReset();
 
-        // ==================== GUARDAR ====================
-        function saveTasks(category) {
-            localStorage.setItem(`tasks_${category}`, JSON.stringify(tasks[category]));
-        }
+        window.addEventListener('online', () => { isOnline = true; updateSyncStatus('online'); });
+        window.addEventListener('offline', () => { isOnline = false; updateSyncStatus('offline'); });
 
-        function saveDailyTasks() {
-            localStorage.setItem('dailyTasks', JSON.stringify(dailyTasks));
-        }
-
-        function saveWishlist() {
-            localStorage.setItem('wishlist', JSON.stringify(wishlist));
-        }
-
-        // ==================== UTILIDADES ====================
+        // ==================== UTILITIES ====================
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
@@ -1097,167 +897,86 @@
             if (navigator.vibrate) navigator.vibrate(10);
         }
 
-        // ==================== TAREAS ====================
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        // ==================== NAVIGATION ====================
+        window.showPage = function(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        };
+
+        // ==================== RENDER FUNCTIONS ====================
         function renderTasks(category) {
             const list = document.getElementById(`${category}List`);
             const count = document.getElementById(`${category}Count`);
-            
+            const categoryTasks = tasks[category] || [];
+
             list.innerHTML = '';
-            
-            if (tasks[category].length === 0) {
-                list.innerHTML = `
-                    <div class="empty-state small">
-                        <div class="empty-icon small">✓</div>
-                        <p class="empty-text">Sin pendientes</p>
-                    </div>
-                `;
+
+            if (categoryTasks.length === 0) {
+                list.innerHTML = `<div class="empty-state small"><div class="empty-icon small">✓</div><p class="empty-text">Sin pendientes</p></div>`;
             } else {
-                tasks[category].forEach((task, index) => {
+                categoryTasks.forEach((task) => {
                     const taskEl = document.createElement('div');
                     taskEl.className = 'task-item';
                     taskEl.innerHTML = `
-                        <div class="checkbox" onclick="completeTask('${category}', ${index})">
+                        <div class="checkbox" onclick="completeTask('${category}', '${task.id}')">
                             <span class="checkmark">✓</span>
                         </div>
                         <span class="task-text">${escapeHtml(task.text)}</span>
-                        <span class="task-time">${task.time}</span>
+                        <span class="task-time">${task.time || ''}</span>
                     `;
                     list.appendChild(taskEl);
                 });
             }
-            
-            count.textContent = tasks[category].length;
+
+            count.textContent = categoryTasks.length;
         }
 
         function renderDailyTasks() {
-            dailyTasksList.innerHTML = '';
-            
+            const list = document.getElementById('dailyTasksList');
+            const count = document.getElementById('dailyTasksCount');
+
+            list.innerHTML = '';
+
             if (dailyTasks.length === 0) {
-                dailyTasksList.innerHTML = `
-                    <div class="empty-state small">
-                        <div class="empty-icon small">🌅</div>
-                        <p class="empty-text">Sin rutinas</p>
-                    </div>
-                `;
+                list.innerHTML = `<div class="empty-state small"><div class="empty-icon small">🌅</div><p class="empty-text">Sin rutinas</p></div>`;
             } else {
-                dailyTasks.forEach((task, index) => {
+                dailyTasks.forEach((task) => {
                     const taskEl = document.createElement('div');
                     taskEl.className = `task-item daily-task${task.completedToday ? ' completed' : ''}`;
                     taskEl.innerHTML = `
-                        <div class="checkbox" onclick="completeDailyTask(${index})">
+                        <div class="checkbox" onclick="completeDailyTask('${task.id}')">
                             <span class="checkmark">✓</span>
                         </div>
                         <span class="task-text editable" contenteditable="true" 
-                              onblur="editDailyTask(${index}, this)" 
+                              onblur="editDailyTask('${task.id}', this)" 
                               onkeydown="handleEditKeydown(event, this)">${escapeHtml(task.text)}</span>
                         <div class="task-actions">
-                            <button class="action-btn" onclick="deleteDailyTask(${index})">✕</button>
+                            <button class="action-btn" onclick="deleteDailyTask('${task.id}')">✕</button>
                         </div>
                     `;
-                    dailyTasksList.appendChild(taskEl);
+                    list.appendChild(taskEl);
                 });
             }
-            
+
             const completed = dailyTasks.filter(t => t.completedToday).length;
-            dailyTasksCount.textContent = `${completed} / ${dailyTasks.length}`;
+            count.textContent = `${completed} / ${dailyTasks.length}`;
         }
 
-        function addTask(category) {
-            const input = document.getElementById(`${category}Input`);
-            const text = input.value.trim();
-            if (text === '') return;
-
-            const now = new Date();
-            const time = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-
-            tasks[category].unshift({ text, time });
-            saveTasks(category);
-            renderTasks(category);
-            input.value = '';
-            vibrate();
-        }
-
-        function addDailyTask() {
-            const text = dailyTaskInput.value.trim();
-            if (text === '') return;
-
-            dailyTasks.push({ text, completedToday: false });
-            saveDailyTasks();
-            renderDailyTasks();
-            dailyTaskInput.value = '';
-            vibrate();
-        }
-
-        function completeTask(category, index) {
-            const list = document.getElementById(`${category}List`);
-            const taskItems = list.querySelectorAll('.task-item');
-            const taskEl = taskItems[index];
-            
-            if (taskEl.classList.contains('completed')) return;
-            
-            taskEl.classList.add('completed');
-            vibrate();
-            
-            setTimeout(() => {
-                tasks[category].splice(index, 1);
-                saveTasks(category);
-                renderTasks(category);
-            }, 3000);
-        }
-
-        function completeDailyTask(index) {
-            if (dailyTasks[index].completedToday) return;
-            
-            const taskItems = dailyTasksList.querySelectorAll('.task-item');
-            const taskEl = taskItems[index];
-            
-            taskEl.classList.add('completed');
-            vibrate();
-            
-            setTimeout(() => {
-                dailyTasks[index].completedToday = true;
-                saveDailyTasks();
-                renderDailyTasks();
-            }, 3000);
-        }
-
-        function editDailyTask(index, element) {
-            const newText = element.textContent.trim();
-            if (newText === '') {
-                element.textContent = dailyTasks[index].text;
-                return;
-            }
-            dailyTasks[index].text = newText;
-            saveDailyTasks();
-        }
-
-        function handleEditKeydown(event, element) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                element.blur();
-            }
-        }
-
-        function deleteDailyTask(index) {
-            dailyTasks.splice(index, 1);
-            saveDailyTasks();
-            renderDailyTasks();
-            vibrate();
-        }
-
-        // ==================== WISHLIST ====================
         function renderWishlist() {
-            wishListEl.innerHTML = '';
-            
+            const list = document.getElementById('wishList');
+            const count = document.getElementById('wishCount');
+
+            list.innerHTML = '';
+
             if (wishlist.length === 0) {
-                wishListEl.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">🎁</div>
-                        <p class="empty-text">Lista vacía</p>
-                    </div>
-                `;
+                list.innerHTML = `<div class="empty-state"><div class="empty-icon">🎁</div><p class="empty-text">Lista vacía</p></div>`;
             } else {
-                wishlist.forEach((item, index) => {
+                wishlist.forEach((item) => {
                     const wishEl = document.createElement('div');
                     wishEl.className = 'wish-item';
                     wishEl.innerHTML = `
@@ -1268,64 +987,225 @@
                         </div>
                         <div class="wish-actions">
                             ${item.url ? `<button class="wish-action-btn open" onclick="window.open('${escapeHtml(item.url)}', '_blank')">🔗</button>` : ''}
-                            <button class="wish-action-btn delete" onclick="deleteWish(${index})">✕</button>
+                            <button class="wish-action-btn delete" onclick="deleteWish('${item.id}')">✕</button>
                         </div>
                     `;
-                    wishListEl.appendChild(wishEl);
+                    list.appendChild(wishEl);
                 });
             }
-            
-            wishCountEl.textContent = wishlist.length;
+
+            count.textContent = wishlist.length;
         }
 
-        function addWish() {
-            const title = wishTitleInput.value.trim();
-            const url = wishUrlInput.value.trim();
-            
-            if (title === '') return;
+        // ==================== FIREBASE LISTENERS ====================
+        function setupListeners() {
+            // Tasks listeners
+            ['personal', 'work', 'business'].forEach(category => {
+                const q = query(collection(db, `tasks_${category}`), orderBy('createdAt', 'desc'));
+                onSnapshot(q, (snapshot) => {
+                    tasks[category] = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    renderTasks(category);
+                    updateSyncStatus('online');
+                }, (error) => {
+                    console.error(`Error listening to ${category}:`, error);
+                    updateSyncStatus('offline');
+                });
+            });
 
-            wishlist.unshift({ title, url });
-            saveWishlist();
-            renderWishlist();
-            wishTitleInput.value = '';
-            wishUrlInput.value = '';
-            wishTitleInput.focus();
+            // Daily tasks listener
+            const dailyQuery = query(collection(db, 'dailyTasks'), orderBy('createdAt', 'asc'));
+            onSnapshot(dailyQuery, (snapshot) => {
+                dailyTasks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                checkDailyReset();
+                renderDailyTasks();
+            });
+
+            // Wishlist listener
+            const wishQuery = query(collection(db, 'wishlist'), orderBy('createdAt', 'desc'));
+            onSnapshot(wishQuery, (snapshot) => {
+                wishlist = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderWishlist();
+            });
+
+            // Hide loading
+            setTimeout(() => loadingOverlay.classList.add('hidden'), 500);
+        }
+
+        // ==================== DAILY RESET ====================
+        async function checkDailyReset() {
+            const lastReset = localStorage.getItem('lastDailyReset') || '';
+            if (lastReset !== todayStr) {
+                for (const task of dailyTasks) {
+                    if (task.completedToday) {
+                        await setDoc(doc(db, 'dailyTasks', task.id), { ...task, completedToday: false });
+                    }
+                }
+                localStorage.setItem('lastDailyReset', todayStr);
+            }
+        }
+
+        // ==================== TASK OPERATIONS ====================
+        window.addTask = async function(category) {
+            const input = document.getElementById(`${category}Input`);
+            const text = input.value.trim();
+            if (!text) return;
+
+            const now = new Date();
+            const time = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+            const id = generateId();
+
+            updateSyncStatus('syncing');
+            await setDoc(doc(db, `tasks_${category}`, id), {
+                text,
+                time,
+                createdAt: Date.now()
+            });
+
+            input.value = '';
             vibrate();
-        }
+        };
 
-        function deleteWish(index) {
-            wishlist.splice(index, 1);
-            saveWishlist();
-            renderWishlist();
+        window.completeTask = async function(category, id) {
+            const list = document.getElementById(`${category}List`);
+            const taskEl = [...list.querySelectorAll('.task-item')].find(el => 
+                el.querySelector('.checkbox').getAttribute('onclick').includes(id)
+            );
+
+            if (taskEl && !taskEl.classList.contains('completed')) {
+                taskEl.classList.add('completed');
+                vibrate();
+
+                setTimeout(async () => {
+                    updateSyncStatus('syncing');
+                    await deleteDoc(doc(db, `tasks_${category}`, id));
+                }, 3000);
+            }
+        };
+
+        window.addDailyTask = async function() {
+            const input = document.getElementById('dailyTaskInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const id = generateId();
+            updateSyncStatus('syncing');
+            await setDoc(doc(db, 'dailyTasks', id), {
+                text,
+                completedToday: false,
+                createdAt: Date.now()
+            });
+
+            input.value = '';
             vibrate();
-        }
+        };
+
+        window.completeDailyTask = async function(id) {
+            const task = dailyTasks.find(t => t.id === id);
+            if (task && !task.completedToday) {
+                const taskEl = [...document.querySelectorAll('.daily-task')].find(el =>
+                    el.querySelector('.checkbox').getAttribute('onclick').includes(id)
+                );
+                if (taskEl) taskEl.classList.add('completed');
+                vibrate();
+
+                setTimeout(async () => {
+                    updateSyncStatus('syncing');
+                    await setDoc(doc(db, 'dailyTasks', id), { ...task, completedToday: true });
+                }, 3000);
+            }
+        };
+
+        window.editDailyTask = async function(id, element) {
+            const newText = element.textContent.trim();
+            const task = dailyTasks.find(t => t.id === id);
+            if (!newText || !task) {
+                element.textContent = task?.text || '';
+                return;
+            }
+            updateSyncStatus('syncing');
+            await setDoc(doc(db, 'dailyTasks', id), { ...task, text: newText });
+        };
+
+        window.handleEditKeydown = function(event, element) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                element.blur();
+            }
+        };
+
+        window.deleteDailyTask = async function(id) {
+            updateSyncStatus('syncing');
+            await deleteDoc(doc(db, 'dailyTasks', id));
+            vibrate();
+        };
+
+        window.addWish = async function() {
+            const titleInput = document.getElementById('wishTitleInput');
+            const urlInput = document.getElementById('wishUrlInput');
+            const title = titleInput.value.trim();
+            const url = urlInput.value.trim();
+
+            if (!title) return;
+
+            const id = generateId();
+            updateSyncStatus('syncing');
+            await setDoc(doc(db, 'wishlist', id), {
+                title,
+                url,
+                createdAt: Date.now()
+            });
+
+            titleInput.value = '';
+            urlInput.value = '';
+            titleInput.focus();
+            vibrate();
+        };
+
+        window.deleteWish = async function(id) {
+            updateSyncStatus('syncing');
+            await deleteDoc(doc(db, 'wishlist', id));
+            vibrate();
+        };
 
         // ==================== EVENT LISTENERS ====================
         ['personalInput', 'workInput', 'businessInput'].forEach(id => {
             document.getElementById(id).addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') addTask(id.replace('Input', ''));
+                if (e.key === 'Enter') window.addTask(id.replace('Input', ''));
             });
         });
-        
-        dailyTaskInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') addDailyTask();
-        });
-        
-        wishTitleInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') wishUrlInput.focus();
-        });
-        
-        wishUrlInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') addWish();
+
+        document.getElementById('dailyTaskInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') window.addDailyTask();
         });
 
-        // ==================== INICIALIZAR ====================
-        renderTasks('personal');
-        renderTasks('work');
-        renderTasks('business');
-        renderDailyTasks();
-        renderWishlist();
-        showInstallPrompt();
+        document.getElementById('wishTitleInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') document.getElementById('wishUrlInput').focus();
+        });
+
+        document.getElementById('wishUrlInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') window.addWish();
+        });
+
+        // ==================== PWA INSTALL ====================
+        function isStandalone() {
+            return window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+        }
+
+        function isIOS() {
+            return /iPad|iPhone|iPod/.test(navigator.userAgent);
+        }
+
+        window.hideInstallPrompt = function() {
+            document.getElementById('installPrompt').classList.remove('show');
+            localStorage.setItem('installPromptDismissed', 'true');
+        };
+
+        if (isIOS() && !isStandalone() && !localStorage.getItem('installPromptDismissed')) {
+            setTimeout(() => document.getElementById('installPrompt').classList.add('show'), 3000);
+        }
+
+        // ==================== INIT ====================
+        setupListeners();
     </script>
 </body>
 </html>
