@@ -15,7 +15,7 @@
     
     <title>Tareas</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@300;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -43,6 +43,8 @@
             --accent-wish-glow: rgba(255, 64, 129, 0.3);
             --accent-urgent: #ff1744;
             --accent-urgent-glow: rgba(255, 23, 68, 0.4);
+            --accent-xp: #ffd700;
+            --accent-xp-glow: rgba(255, 215, 0, 0.4);
             --success: #00c853;
             --border: #252529;
             --border-daily: #2a2520;
@@ -63,24 +65,15 @@
             overscroll-behavior: none;
         }
 
-        .page {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .page.active {
-            display: block;
-        }
+        .page { display: none; animation: fadeIn 0.3s ease; }
+        .page.active { display: block; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .main-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+        .main-header { text-align: center; margin-bottom: 20px; }
 
         h1 {
             font-family: 'JetBrains Mono', monospace;
@@ -90,11 +83,7 @@
             margin-bottom: 6px;
         }
 
-        .subtitle {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            font-weight: 300;
-        }
+        .subtitle { color: var(--text-secondary); font-size: 0.85rem; font-weight: 300; }
 
         .date {
             font-family: 'JetBrains Mono', monospace;
@@ -117,21 +106,216 @@
             border-radius: 20px;
         }
 
-        .sync-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--success);
-        }
-
+        .sync-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); }
         .sync-dot.offline { background: #ff5252; }
         .sync-dot.syncing { background: var(--accent-daily); animation: pulse 1s infinite; }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        /* ==================== GAMIFICATION STATS ==================== */
+        .stats-bar {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            border: 1px solid var(--border);
         }
 
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px 16px;
+            min-width: 80px;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent-xp);
+        }
+
+        .stat-value.level { color: var(--accent); }
+        .stat-value.streak { color: var(--accent-urgent); }
+
+        .stat-label {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        .level-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-business) 100%);
+            border-radius: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .level-badge.novato { background: linear-gradient(135deg, #607d8b 0%, #455a64 100%); }
+        .level-badge.guerrero { background: linear-gradient(135deg, #ff9100 0%, #ff5722 100%); }
+        .level-badge.espartano { background: linear-gradient(135deg, #e91e63 0%, #9c27b0 100%); }
+        .level-badge.leyenda { background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%); text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+
+        .xp-bar-container {
+            width: 100%;
+            max-width: 200px;
+            height: 6px;
+            background: var(--bg-primary);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .xp-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-xp), var(--accent-daily));
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .xp-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* Streak fire animation */
+        .streak-fire {
+            display: inline-block;
+            animation: fireFlicker 0.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes fireFlicker {
+            from { transform: scale(1) rotate(-5deg); }
+            to { transform: scale(1.1) rotate(5deg); }
+        }
+
+        /* ==================== ACHIEVEMENTS ==================== */
+        .achievements-btn {
+            position: fixed;
+            bottom: calc(24px + var(--safe-bottom));
+            left: 20px;
+            background: var(--accent-xp);
+            color: #000;
+            border: none;
+            border-radius: 28px;
+            padding: 14px 22px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 20px var(--accent-xp-glow);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .achievements-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 30px var(--accent-xp-glow); }
+
+        .achievement-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: var(--bg-secondary);
+            border: 2px solid var(--accent-xp);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .achievement-popup.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+        }
+
+        .achievement-popup-icon { font-size: 4rem; margin-bottom: 16px; }
+        .achievement-popup-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-xp);
+            margin-bottom: 8px;
+        }
+        .achievement-popup-desc { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; }
+        .achievement-popup-xp {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-xp);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .achievement-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 1999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .achievement-overlay.show { opacity: 1; pointer-events: auto; }
+
+        /* Achievements page */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .achievement-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .achievement-card.unlocked {
+            border-color: var(--accent-xp);
+            box-shadow: 0 0 20px var(--accent-xp-glow);
+        }
+
+        .achievement-card.locked { opacity: 0.4; }
+        .achievement-card-icon { font-size: 2rem; margin-bottom: 8px; }
+        .achievement-card.locked .achievement-card-icon { filter: grayscale(1); }
+        .achievement-card-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .achievement-card-desc { font-size: 0.65rem; color: var(--text-secondary); }
+
+        /* ==================== COLUMNS ==================== */
         .columns-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -141,10 +325,7 @@
         }
 
         @media (max-width: 1100px) {
-            .columns-container {
-                grid-template-columns: 1fr;
-                max-width: 100%;
-            }
+            .columns-container { grid-template-columns: 1fr; max-width: 100%; }
         }
 
         .column {
@@ -157,13 +338,7 @@
         .column.work { border-color: rgba(0, 191, 165, 0.3); }
         .column.business { border-color: rgba(170, 0, 255, 0.3); }
 
-        .column-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
+        .column-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
         .column-icon { font-size: 1.2rem; }
 
         .column-title {
@@ -188,30 +363,11 @@
             transition: all 0.3s ease;
         }
 
-        .input-container:focus-within {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px var(--accent-glow);
-        }
-
-        .column.work .input-container:focus-within {
-            border-color: var(--accent-work);
-            box-shadow: 0 0 0 3px var(--accent-work-glow);
-        }
-
-        .column.business .input-container:focus-within {
-            border-color: var(--accent-business);
-            box-shadow: 0 0 0 3px var(--accent-business-glow);
-        }
-
-        .input-container.daily:focus-within {
-            border-color: var(--accent-daily);
-            box-shadow: 0 0 0 3px var(--accent-daily-glow);
-        }
-
-        .input-container.wish:focus-within {
-            border-color: var(--accent-wish);
-            box-shadow: 0 0 0 3px var(--accent-wish-glow);
-        }
+        .input-container:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+        .column.work .input-container:focus-within { border-color: var(--accent-work); box-shadow: 0 0 0 3px var(--accent-work-glow); }
+        .column.business .input-container:focus-within { border-color: var(--accent-business); box-shadow: 0 0 0 3px var(--accent-business-glow); }
+        .input-container.daily:focus-within { border-color: var(--accent-daily); box-shadow: 0 0 0 3px var(--accent-daily-glow); }
+        .input-container.wish:focus-within { border-color: var(--accent-wish); box-shadow: 0 0 0 3px var(--accent-wish-glow); }
 
         input[type="text"], input[type="url"] {
             flex: 1;
@@ -242,11 +398,7 @@
             touch-action: manipulation;
         }
 
-        button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 20px var(--accent-glow);
-        }
-
+        button:hover { transform: translateY(-1px); box-shadow: 0 4px 20px var(--accent-glow); }
         button:active { transform: scale(0.97); }
 
         .column.work button { background: var(--accent-work); }
@@ -258,20 +410,10 @@
         button.wish-btn { background: var(--accent-wish); }
         button.wish-btn:hover { box-shadow: 0 4px 20px var(--accent-wish-glow); }
         
-        button.urgent-btn {
-            background: var(--accent-urgent);
-            font-size: 0.7rem;
-            padding: 10px 10px;
-        }
+        button.urgent-btn { background: var(--accent-urgent); font-size: 0.7rem; padding: 10px 10px; }
         button.urgent-btn:hover { box-shadow: 0 4px 20px var(--accent-urgent-glow); }
 
-        .tasks-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            padding: 0 4px;
-        }
+        .tasks-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 4px; }
 
         .tasks-title {
             font-family: 'JetBrains Mono', monospace;
@@ -298,11 +440,7 @@
         .tasks-count.daily { color: var(--accent-daily); background: rgba(255, 145, 0, 0.15); }
         .tasks-count.wish { color: var(--accent-wish); background: rgba(255, 64, 129, 0.15); }
 
-        .tasks-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+        .tasks-list { display: flex; flex-direction: column; gap: 8px; }
 
         .task-item {
             display: flex;
@@ -316,10 +454,7 @@
             animation: slideIn 0.3s ease;
         }
 
-        .task-item.daily-task {
-            background: rgba(255, 145, 0, 0.05);
-            border-color: var(--border-daily);
-        }
+        .task-item.daily-task { background: rgba(255, 145, 0, 0.05); border-color: var(--border-daily); }
 
         .task-item.urgent {
             background: rgba(255, 23, 68, 0.08);
@@ -337,30 +472,12 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .task-item:hover {
-            background: var(--bg-hover);
-            border-color: #303035;
-        }
+        .task-item:hover { background: var(--bg-hover); border-color: #303035; }
+        .task-item.urgent:hover { background: rgba(255, 23, 68, 0.12); border-color: var(--accent-urgent); }
 
-        .task-item.urgent:hover {
-            background: rgba(255, 23, 68, 0.12);
-            border-color: var(--accent-urgent);
-        }
-
-        .task-item.completed {
-            animation: fadeOut 0.5s ease forwards;
-            animation-delay: 2.5s;
-        }
-
-        .task-item.daily-task.completed {
-            animation: fadeOutDaily 0.5s ease forwards;
-            animation-delay: 2.5s;
-        }
-
-        .task-item.completed .task-text {
-            text-decoration: line-through;
-            color: var(--text-secondary);
-        }
+        .task-item.completed { animation: fadeOut 0.5s ease forwards; animation-delay: 2.5s; }
+        .task-item.daily-task.completed { animation: fadeOutDaily 0.5s ease forwards; animation-delay: 2.5s; }
+        .task-item.completed .task-text { text-decoration: line-through; color: var(--text-secondary); }
 
         @keyframes fadeOut {
             0% { opacity: 1; transform: translateX(0) scale(1); }
@@ -394,27 +511,11 @@
         .task-item.urgent .checkbox:hover { background: rgba(255, 23, 68, 0.2); }
         .task-item.completed .checkbox { background: var(--success); border-color: var(--success); }
 
-        .checkmark {
-            opacity: 0;
-            color: white;
-            font-size: 12px;
-            transition: all 0.2s ease;
-        }
-
+        .checkmark { opacity: 0; color: white; font-size: 12px; transition: all 0.2s ease; }
         .task-item.completed .checkmark { opacity: 1; }
 
-        .task-text {
-            flex: 1;
-            font-size: 0.9rem;
-            font-weight: 300;
-            transition: all 0.3s ease;
-            word-break: break-word;
-        }
-
-        .task-item.urgent .task-text {
-            color: var(--accent-urgent);
-            font-weight: 500;
-        }
+        .task-text { flex: 1; font-size: 0.9rem; font-weight: 300; transition: all 0.3s ease; word-break: break-word; }
+        .task-item.urgent .task-text { color: var(--accent-urgent); font-weight: 500; }
 
         .urgent-badge {
             font-size: 0.6rem;
@@ -428,18 +529,9 @@
             animation: blink 1s ease-in-out infinite;
         }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
-        .task-text.editable {
-            cursor: text;
-            padding: 2px 6px;
-            margin: -2px -6px;
-            border-radius: 4px;
-        }
-
+        .task-text.editable { cursor: text; padding: 2px 6px; margin: -2px -6px; border-radius: 4px; }
         .task-text.editable:hover { background: rgba(255, 255, 255, 0.05); }
         .task-text.editable:focus { outline: none; background: rgba(255, 145, 0, 0.1); }
 
@@ -448,6 +540,16 @@
             font-size: 0.65rem;
             color: var(--text-secondary);
             opacity: 0.6;
+        }
+
+        .task-xp {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--accent-xp);
+            background: rgba(255, 215, 0, 0.15);
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 6px;
         }
 
         .task-actions { display: flex; gap: 6px; }
@@ -463,24 +565,15 @@
             border-radius: 4px;
         }
 
-        .action-btn:hover {
-            color: #ff5252;
-            background: rgba(255, 82, 82, 0.1);
-            transform: none;
-            box-shadow: none;
-        }
+        .action-btn:hover { color: #ff5252; background: rgba(255, 82, 82, 0.1); transform: none; box-shadow: none; }
 
-        .empty-state {
-            text-align: center;
-            padding: 30px 16px;
-            color: var(--text-secondary);
-        }
-
+        .empty-state { text-align: center; padding: 30px 16px; color: var(--text-secondary); }
         .empty-state.small { padding: 20px 16px; }
         .empty-icon { font-size: 2rem; margin-bottom: 10px; opacity: 0.3; }
         .empty-icon.small { font-size: 1.5rem; margin-bottom: 8px; }
         .empty-text { font-size: 0.85rem; font-weight: 300; }
 
+        /* ==================== DAILY SECTION ==================== */
         .daily-section {
             background: linear-gradient(180deg, rgba(255, 145, 0, 0.03) 0%, transparent 100%);
             border-radius: 12px;
@@ -490,13 +583,7 @@
             margin: 0 auto 100px;
         }
 
-        .daily-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
+        .daily-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
         .daily-icon { font-size: 1.2rem; }
         .daily-title-group { flex: 1; }
 
@@ -507,23 +594,40 @@
             color: var(--accent-daily);
         }
 
-        .daily-subtitle {
-            color: var(--text-secondary);
-            font-size: 0.7rem;
-            font-weight: 300;
-            margin-top: 2px;
-        }
+        .daily-subtitle { color: var(--text-secondary); font-size: 0.7rem; font-weight: 300; margin-top: 2px; }
 
-        .daily-content {
-            display: grid;
-            grid-template-columns: 280px 1fr;
+        .daily-content { display: grid; grid-template-columns: 280px 1fr; gap: 16px; }
+        @media (max-width: 700px) { .daily-content { grid-template-columns: 1fr; } }
+
+        .daily-stats {
+            display: flex;
             gap: 16px;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(255, 215, 0, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
         }
 
-        @media (max-width: 700px) {
-            .daily-content { grid-template-columns: 1fr; }
+        .daily-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
+        .daily-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .daily-stat-label {
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        /* ==================== FLOATING BUTTONS ==================== */
         .floating-btn {
             position: fixed;
             bottom: calc(24px + var(--safe-bottom));
@@ -550,11 +654,8 @@
         .floating-btn .arrow { transition: transform 0.3s ease; }
         .floating-btn:hover .arrow { transform: translateX(4px); }
 
-        .wishlist-container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding-bottom: 40px;
-        }
+        /* ==================== WISHLIST ==================== */
+        .wishlist-container { max-width: 600px; margin: 0 auto; padding-bottom: 40px; }
 
         .back-btn {
             background: transparent;
@@ -590,21 +691,10 @@
             margin-bottom: 14px;
         }
 
-        .wish-inputs {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
+        .wish-inputs { display: flex; flex-direction: column; gap: 10px; }
         .wish-inputs .input-container { background: var(--bg-primary); }
 
-        .add-wish-btn {
-            width: 100%;
-            background: var(--accent-wish);
-            padding: 14px;
-            margin-top: 6px;
-        }
-
+        .add-wish-btn { width: 100%; background: var(--accent-wish); padding: 14px; margin-top: 6px; }
         .add-wish-btn:hover { box-shadow: 0 4px 20px var(--accent-wish-glow); }
 
         .wish-item {
@@ -654,6 +744,32 @@
         .wish-action-btn.open:hover { color: var(--accent-wish); background: rgba(255, 64, 129, 0.1); }
         .wish-action-btn.delete:hover { color: #ff5252; background: rgba(255, 82, 82, 0.1); }
 
+        /* ==================== NOTIFICATIONS ==================== */
+        .notification-banner {
+            position: fixed;
+            top: calc(10px + var(--safe-top));
+            left: 20px;
+            right: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-urgent);
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: none;
+            z-index: 1002;
+            animation: slideDown 0.3s ease;
+        }
+
+        .notification-banner.show { display: flex; }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .notification-banner-text { flex: 1; font-size: 0.85rem; }
+        .notification-banner-btn { background: var(--accent-urgent); padding: 8px 16px; font-size: 0.75rem; }
+        .notification-banner-close { background: transparent; border: none; color: var(--text-secondary); font-size: 18px; cursor: pointer; padding: 0 0 0 12px; }
+
         .install-prompt {
             position: fixed;
             bottom: calc(90px + var(--safe-bottom));
@@ -677,59 +793,78 @@
 
         .install-prompt-text { font-size: 0.85rem; margin-bottom: 12px; line-height: 1.5; }
         .install-prompt-steps { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 12px; }
+        .install-prompt-close { position: absolute; top: 10px; right: 10px; background: transparent; border: none; color: var(--text-secondary); font-size: 18px; cursor: pointer; padding: 4px; }
 
-        .install-prompt-close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 18px;
-            cursor: pointer;
-            padding: 4px;
-        }
-
-        /* Notification permission banner */
-        .notification-banner {
+        /* XP popup animation */
+        .xp-popup {
             position: fixed;
-            top: calc(10px + var(--safe-top));
-            left: 20px;
-            right: 20px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--accent-urgent);
-            border-radius: 12px;
-            padding: 14px 16px;
-            display: none;
-            z-index: 1002;
-            animation: slideDown 0.3s ease;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-xp);
+            text-shadow: 0 0 30px var(--accent-xp-glow);
+            pointer-events: none;
+            opacity: 0;
+            z-index: 3000;
         }
 
-        .notification-banner.show { display: flex; }
-        
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .xp-popup.show {
+            animation: xpPop 1.5s ease-out forwards;
         }
 
-        .notification-banner-text {
-            flex: 1;
-            font-size: 0.85rem;
+        @keyframes xpPop {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            40% { transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -80%) scale(1); }
         }
 
-        .notification-banner-btn {
-            background: var(--accent-urgent);
-            padding: 8px 16px;
-            font-size: 0.75rem;
+        /* Victory animation */
+        .victory-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 4000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
         }
 
-        .notification-banner-close {
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 18px;
-            cursor: pointer;
-            padding: 0 0 0 12px;
+        .victory-overlay.show { opacity: 1; pointer-events: auto; }
+
+        .victory-icon { font-size: 6rem; animation: victoryBounce 0.5s ease infinite alternate; }
+        @keyframes victoryBounce {
+            from { transform: scale(1) rotate(-5deg); }
+            to { transform: scale(1.1) rotate(5deg); }
+        }
+
+        .victory-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-xp);
+            margin-top: 20px;
+            text-shadow: 0 0 30px var(--accent-xp-glow);
+        }
+
+        .victory-subtext { color: var(--text-secondary); margin-top: 10px; font-size: 1rem; }
+
+        .victory-close {
+            margin-top: 30px;
+            background: var(--accent-xp);
+            color: #000;
+            padding: 14px 40px;
+            font-size: 1rem;
         }
 
         ::-webkit-scrollbar { width: 4px; }
@@ -738,10 +873,7 @@
 
         .loading-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: var(--bg-primary);
             display: flex;
             align-items: center;
@@ -769,6 +901,26 @@
         <div class="loading-spinner"></div>
     </div>
 
+    <!-- XP Popup -->
+    <div class="xp-popup" id="xpPopup">+10 XP</div>
+
+    <!-- Victory Overlay -->
+    <div class="victory-overlay" id="victoryOverlay">
+        <div class="victory-icon">🏆</div>
+        <div class="victory-text">¡RUTINA COMPLETA!</div>
+        <div class="victory-subtext">Has completado todas tus tareas diarias</div>
+        <button class="victory-close" onclick="hideVictory()">¡Genial!</button>
+    </div>
+
+    <!-- Achievement Popup -->
+    <div class="achievement-overlay" id="achievementOverlay" onclick="hideAchievement()"></div>
+    <div class="achievement-popup" id="achievementPopup">
+        <div class="achievement-popup-icon" id="achievementIcon">🏅</div>
+        <div class="achievement-popup-title" id="achievementTitle">¡LOGRO DESBLOQUEADO!</div>
+        <div class="achievement-popup-desc" id="achievementDesc">Descripción del logro</div>
+        <div class="achievement-popup-xp" id="achievementXp">+50 XP</div>
+    </div>
+
     <!-- Notification permission banner -->
     <div class="notification-banner" id="notificationBanner">
         <span class="notification-banner-text">🔔 Activa las notificaciones para tareas urgentes</span>
@@ -787,6 +939,29 @@
                 <span id="syncText">Conectando...</span>
             </div>
         </header>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="level-badge" id="levelBadge">🐺 NOVATO</div>
+                <div class="xp-bar-container">
+                    <div class="xp-bar" id="xpBar" style="width: 0%"></div>
+                </div>
+                <div class="xp-text" id="xpText">0 / 100 XP</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="totalXp">0</div>
+                <div class="stat-label">XP Total</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value streak" id="streakCount"><span class="streak-fire">🔥</span> 0</div>
+                <div class="stat-label">Racha</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value level" id="achievementCount">0</div>
+                <div class="stat-label">Logros</div>
+            </div>
+        </div>
 
         <div class="columns-container">
             <div class="column personal">
@@ -816,7 +991,7 @@
                     <div class="input-container">
                         <input type="text" id="workInput" placeholder="Nueva tarea..." autocomplete="off">
                         <button onclick="addTask('work')">+</button>
-                        <button class="urgent-btn" onclick="addTask('work', true)">🔴 Urgente</button>
+                        <button class="urgent-btn" onclick="addTask('work', true)">🔴</button>
                     </div>
                 </div>
                 <div class="tasks-header">
@@ -850,10 +1025,22 @@
                 <span class="daily-icon">🔄</span>
                 <div class="daily-title-group">
                     <div class="daily-main-title">Rutina diaria</div>
-                    <p class="daily-subtitle">Se resetean cada día</p>
+                    <p class="daily-subtitle">Completa todas para ganar XP bonus y mantener tu racha 🔥</p>
                 </div>
                 <span class="tasks-count daily" id="dailyTasksCount">0 / 0</span>
             </div>
+
+            <div class="daily-stats">
+                <div class="daily-stat">
+                    <div class="daily-stat-value" style="color: var(--accent-xp);" id="dailyXpReward">+50 XP</div>
+                    <div class="daily-stat-label">Bonus Hoy</div>
+                </div>
+                <div class="daily-stat">
+                    <div class="daily-stat-value" style="color: var(--accent-urgent);" id="streakMultiplier">x1</div>
+                    <div class="daily-stat-label">Multiplicador</div>
+                </div>
+            </div>
+
             <div class="daily-content">
                 <div class="input-wrapper" style="margin-bottom:0">
                     <div class="input-container daily">
@@ -865,9 +1052,25 @@
             </div>
         </div>
 
+        <button class="achievements-btn" onclick="showPage('achievementsPage')">
+            🏆 Logros
+        </button>
+
         <button class="floating-btn" onclick="showPage('wishlistPage')">
             🎁 WishList <span class="arrow">→</span>
         </button>
+    </div>
+
+    <!-- PÁGINA LOGROS -->
+    <div id="achievementsPage" class="page">
+        <div class="wishlist-container">
+            <button class="back-btn" onclick="showPage('tasksPage')">← Volver</button>
+            <header class="wish-header">
+                <h1>🏆 Logros</h1>
+                <p class="subtitle">Desbloquea todos los logros</p>
+            </header>
+            <div class="achievements-grid" id="achievementsGrid"></div>
+        </div>
     </div>
 
     <!-- PÁGINA WISHLIST -->
@@ -907,7 +1110,7 @@
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-        import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+        import { getFirestore, collection, doc, setDoc, getDoc, deleteDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDetXdN-ujotpEY7HNJMQB2JEOYooLxpkk",
@@ -925,6 +1128,17 @@
         let tasks = { personal: [], work: [], business: [] };
         let dailyTasks = [];
         let wishlist = [];
+        let gameStats = {
+            xp: 0,
+            level: 1,
+            streak: 0,
+            lastCompletedDate: null,
+            achievements: [],
+            totalTasksCompleted: 0,
+            dailyCompletions: 0,
+            earlyBirdCount: 0
+        };
+
         let isOnline = navigator.onLine;
         let urgentInterval = null;
         let originalTitle = "Tareas";
@@ -932,59 +1146,265 @@
 
         const today = new Date();
         const todayStr = today.toISOString().split('T')[0];
-        const URGENT_INTERVAL = 20 * 60 * 1000; // 20 minutes
+        const URGENT_INTERVAL = 20 * 60 * 1000;
+
+        // ==================== LEVELS CONFIG ====================
+        const LEVELS = [
+            { name: 'NOVATO', icon: '🐺', minXp: 0, maxXp: 100 },
+            { name: 'GUERRERO', icon: '⚔️', minXp: 100, maxXp: 500 },
+            { name: 'ESPARTANO', icon: '🛡️', minXp: 500, maxXp: 1500 },
+            { name: 'LEYENDA', icon: '👑', minXp: 1500, maxXp: Infinity }
+        ];
+
+        // ==================== ACHIEVEMENTS CONFIG ====================
+        const ACHIEVEMENTS = [
+            { id: 'first_task', name: 'Primer Paso', desc: 'Completa tu primera tarea', icon: '🎯', xp: 10, check: (s) => s.totalTasksCompleted >= 1 },
+            { id: 'daily_warrior', name: 'Guerrero Diario', desc: 'Completa todas las rutinas diarias', icon: '⚔️', xp: 50, check: (s) => s.dailyCompletions >= 1 },
+            { id: 'streak_3', name: 'En Racha', desc: 'Mantén una racha de 3 días', icon: '🔥', xp: 30, check: (s) => s.streak >= 3 },
+            { id: 'streak_7', name: 'Semana Perfecta', desc: 'Mantén una racha de 7 días', icon: '🌟', xp: 100, check: (s) => s.streak >= 7 },
+            { id: 'streak_30', name: 'Mes Invicto', desc: 'Mantén una racha de 30 días', icon: '💎', xp: 500, check: (s) => s.streak >= 30 },
+            { id: 'early_bird', name: 'Madrugador', desc: 'Completa una tarea antes de las 8am', icon: '🌅', xp: 25, check: (s) => s.earlyBirdCount >= 1 },
+            { id: 'early_bird_5', name: 'Ave Tempranera', desc: 'Completa 5 tareas antes de las 8am', icon: '🦅', xp: 75, check: (s) => s.earlyBirdCount >= 5 },
+            { id: 'tasks_10', name: 'Productivo', desc: 'Completa 10 tareas en total', icon: '📈', xp: 50, check: (s) => s.totalTasksCompleted >= 10 },
+            { id: 'tasks_50', name: 'Imparable', desc: 'Completa 50 tareas en total', icon: '🚀', xp: 150, check: (s) => s.totalTasksCompleted >= 50 },
+            { id: 'tasks_100', name: 'Máquina', desc: 'Completa 100 tareas en total', icon: '🤖', xp: 300, check: (s) => s.totalTasksCompleted >= 100 },
+            { id: 'level_guerrero', name: 'Ascenso Guerrero', desc: 'Alcanza el nivel Guerrero', icon: '⚔️', xp: 50, check: (s) => s.level >= 2 },
+            { id: 'level_espartano', name: 'Ascenso Espartano', desc: 'Alcanza el nivel Espartano', icon: '🛡️', xp: 100, check: (s) => s.level >= 3 },
+            { id: 'level_leyenda', name: 'Leyenda Viva', desc: 'Alcanza el nivel Leyenda', icon: '👑', xp: 250, check: (s) => s.level >= 4 },
+        ];
 
         // ==================== AUDIO ====================
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        
-        function playUrgentSound() {
-            // Unlock audio context on iOS
-            if (audioContext.state === 'suspended') {
-                audioContext.resume();
+
+        function playSound(type) {
+            if (audioContext.state === 'suspended') audioContext.resume();
+
+            if (type === 'complete') {
+                playTone(523.25, 0.1, 0.15);
+                setTimeout(() => playTone(659.25, 0.1, 0.15), 100);
+            } else if (type === 'achievement') {
+                playTone(523.25, 0.2, 0.2);
+                setTimeout(() => playTone(659.25, 0.2, 0.2), 150);
+                setTimeout(() => playTone(783.99, 0.2, 0.2), 300);
+                setTimeout(() => playTone(1046.50, 0.3, 0.3), 450);
+            } else if (type === 'victory') {
+                const notes = [523.25, 659.25, 783.99, 1046.50, 783.99, 1046.50, 1318.51];
+                notes.forEach((freq, i) => {
+                    setTimeout(() => playTone(freq, 0.2, 0.2), i * 120);
+                });
+            } else if (type === 'levelup') {
+                playTone(440, 0.15, 0.2);
+                setTimeout(() => playTone(554.37, 0.15, 0.2), 100);
+                setTimeout(() => playTone(659.25, 0.15, 0.2), 200);
+                setTimeout(() => playTone(880, 0.3, 0.3), 300);
+            } else if (type === 'urgent') {
+                playTone(880, 0.3, 0.2);
+                setTimeout(() => playTone(988, 0.3, 0.2), 200);
+            }
+        }
+
+        function playTone(freq, duration, volume) {
+            const osc = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            osc.connect(gain);
+            gain.connect(audioContext.destination);
+            osc.frequency.value = freq;
+            osc.type = 'sine';
+            gain.gain.setValueAtTime(volume, audioContext.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+            osc.start(audioContext.currentTime);
+            osc.stop(audioContext.currentTime + duration);
+        }
+
+        // ==================== GAMIFICATION ====================
+        function getLevel(xp) {
+            for (let i = LEVELS.length - 1; i >= 0; i--) {
+                if (xp >= LEVELS[i].minXp) return { ...LEVELS[i], index: i + 1 };
+            }
+            return { ...LEVELS[0], index: 1 };
+        }
+
+        function updateStatsUI() {
+            const level = getLevel(gameStats.xp);
+            const levelBadge = document.getElementById('levelBadge');
+            levelBadge.textContent = `${level.icon} ${level.name}`;
+            levelBadge.className = 'level-badge ' + level.name.toLowerCase();
+
+            // XP bar
+            const xpInLevel = gameStats.xp - level.minXp;
+            const xpNeeded = level.maxXp === Infinity ? 1000 : level.maxXp - level.minXp;
+            const xpPercent = Math.min((xpInLevel / xpNeeded) * 100, 100);
+            document.getElementById('xpBar').style.width = xpPercent + '%';
+            document.getElementById('xpText').textContent = level.maxXp === Infinity 
+                ? `${gameStats.xp} XP (MAX)` 
+                : `${xpInLevel} / ${xpNeeded} XP`;
+
+            document.getElementById('totalXp').textContent = gameStats.xp;
+            document.getElementById('streakCount').innerHTML = `<span class="streak-fire">🔥</span> ${gameStats.streak}`;
+            document.getElementById('achievementCount').textContent = gameStats.achievements.length;
+
+            // Daily stats
+            const multiplier = Math.min(1 + Math.floor(gameStats.streak / 7), 5);
+            document.getElementById('streakMultiplier').textContent = `x${multiplier}`;
+            
+            const baseReward = dailyTasks.length * 10;
+            document.getElementById('dailyXpReward').textContent = `+${baseReward * multiplier} XP`;
+
+            gameStats.level = level.index;
+        }
+
+        function addXP(amount, showPopup = true) {
+            const oldLevel = getLevel(gameStats.xp);
+            gameStats.xp += amount;
+            const newLevel = getLevel(gameStats.xp);
+
+            if (showPopup) {
+                showXpPopup(amount);
             }
 
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.frequency.value = 880;
-            oscillator.type = 'sine';
-            
-            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-            
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + 0.5);
+            if (newLevel.index > oldLevel.index) {
+                playSound('levelup');
+                setTimeout(() => {
+                    showAchievementPopup({
+                        icon: newLevel.icon,
+                        name: '¡SUBISTE DE NIVEL!',
+                        desc: `Ahora eres ${newLevel.name}`,
+                        xp: 0
+                    });
+                }, 500);
+            }
 
-            // Second beep
+            updateStatsUI();
+            saveGameStats();
+            checkAchievements();
+        }
+
+        function showXpPopup(amount) {
+            const popup = document.getElementById('xpPopup');
+            popup.textContent = `+${amount} XP`;
+            popup.classList.remove('show');
+            void popup.offsetWidth;
+            popup.classList.add('show');
+        }
+
+        function checkAchievements() {
+            ACHIEVEMENTS.forEach(achievement => {
+                if (!gameStats.achievements.includes(achievement.id) && achievement.check(gameStats)) {
+                    unlockAchievement(achievement);
+                }
+            });
+        }
+
+        function unlockAchievement(achievement) {
+            gameStats.achievements.push(achievement.id);
+            playSound('achievement');
+            
             setTimeout(() => {
-                const osc2 = audioContext.createOscillator();
-                const gain2 = audioContext.createGain();
-                osc2.connect(gain2);
-                gain2.connect(audioContext.destination);
-                osc2.frequency.value = 988;
-                osc2.type = 'sine';
-                gain2.gain.setValueAtTime(0.3, audioContext.currentTime);
-                gain2.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-                osc2.start(audioContext.currentTime);
-                osc2.stop(audioContext.currentTime + 0.5);
-            }, 200);
+                showAchievementPopup(achievement);
+                addXP(achievement.xp, false);
+            }, 300);
+
+            saveGameStats();
+            renderAchievements();
+        }
+
+        function showAchievementPopup(achievement) {
+            document.getElementById('achievementIcon').textContent = achievement.icon;
+            document.getElementById('achievementTitle').textContent = achievement.name;
+            document.getElementById('achievementDesc').textContent = achievement.desc;
+            document.getElementById('achievementXp').textContent = achievement.xp > 0 ? `+${achievement.xp} XP` : '';
+            
+            document.getElementById('achievementOverlay').classList.add('show');
+            document.getElementById('achievementPopup').classList.add('show');
+        }
+
+        window.hideAchievement = function() {
+            document.getElementById('achievementOverlay').classList.remove('show');
+            document.getElementById('achievementPopup').classList.remove('show');
+        };
+
+        function renderAchievements() {
+            const grid = document.getElementById('achievementsGrid');
+            grid.innerHTML = ACHIEVEMENTS.map(a => `
+                <div class="achievement-card ${gameStats.achievements.includes(a.id) ? 'unlocked' : 'locked'}">
+                    <div class="achievement-card-icon">${a.icon}</div>
+                    <div class="achievement-card-name">${a.name}</div>
+                    <div class="achievement-card-desc">${a.desc}</div>
+                </div>
+            `).join('');
+        }
+
+        function showVictory() {
+            playSound('victory');
+            document.getElementById('victoryOverlay').classList.add('show');
+        }
+
+        window.hideVictory = function() {
+            document.getElementById('victoryOverlay').classList.remove('show');
+        };
+
+        function checkDailyCompletion() {
+            if (dailyTasks.length > 0 && dailyTasks.every(t => t.completedToday)) {
+                const multiplier = Math.min(1 + Math.floor(gameStats.streak / 7), 5);
+                const bonus = dailyTasks.length * 10 * multiplier;
+                
+                // Update streak
+                if (gameStats.lastCompletedDate !== todayStr) {
+                    const yesterday = new Date(today);
+                    yesterday.setDate(yesterday.getDate() - 1);
+                    const yesterdayStr = yesterday.toISOString().split('T')[0];
+                    
+                    if (gameStats.lastCompletedDate === yesterdayStr) {
+                        gameStats.streak++;
+                    } else if (gameStats.lastCompletedDate !== todayStr) {
+                        gameStats.streak = 1;
+                    }
+                    
+                    gameStats.lastCompletedDate = todayStr;
+                    gameStats.dailyCompletions++;
+                    
+                    addXP(bonus);
+                    showVictory();
+                    saveGameStats();
+                    checkAchievements();
+                }
+            }
+        }
+
+        // ==================== FIREBASE ====================
+        async function saveGameStats() {
+            await setDoc(doc(db, 'gameStats', 'main'), gameStats);
+        }
+
+        async function loadGameStats() {
+            const docSnap = await getDoc(doc(db, 'gameStats', 'main'));
+            if (docSnap.exists()) {
+                gameStats = { ...gameStats, ...docSnap.data() };
+                
+                // Check if streak should reset
+                if (gameStats.lastCompletedDate) {
+                    const lastDate = new Date(gameStats.lastCompletedDate);
+                    const diffDays = Math.floor((today - lastDate) / (1000 * 60 * 60 * 24));
+                    if (diffDays > 1) {
+                        gameStats.streak = 0;
+                        await saveGameStats();
+                    }
+                }
+            }
+            updateStatsUI();
+            renderAchievements();
         }
 
         // ==================== NOTIFICATIONS ====================
         function checkNotificationPermission() {
             if ('Notification' in window && Notification.permission === 'default') {
-                setTimeout(() => {
-                    document.getElementById('notificationBanner').classList.add('show');
-                }, 2000);
+                setTimeout(() => document.getElementById('notificationBanner').classList.add('show'), 2000);
             }
         }
 
         window.requestNotificationPermission = async function() {
             if ('Notification' in window) {
-                const permission = await Notification.requestPermission();
+                await Notification.requestPermission();
                 hideNotificationBanner();
             }
         };
@@ -995,73 +1415,41 @@
 
         function sendNotification(title, body) {
             if ('Notification' in window && Notification.permission === 'granted') {
-                new Notification(title, {
-                    body: body,
-                    icon: '🔴',
-                    badge: '🔴',
-                    tag: 'urgent-task',
-                    renotify: true
-                });
+                new Notification(title, { body, icon: '🔴', tag: 'urgent-task', renotify: true });
             }
         }
 
-        // ==================== TITLE BLINK ====================
+        // ==================== URGENT TASKS ====================
         function startTitleBlink() {
             if (titleBlinking) return;
             titleBlinking = true;
-            
             let isAlert = false;
-            const blinkInterval = setInterval(() => {
-                if (!titleBlinking) {
-                    clearInterval(blinkInterval);
-                    document.title = originalTitle;
-                    return;
-                }
-                document.title = isAlert ? "⚠️ URGENTE - Tarea pendiente!" : originalTitle;
+            const interval = setInterval(() => {
+                if (!titleBlinking) { clearInterval(interval); document.title = originalTitle; return; }
+                document.title = isAlert ? "⚠️ URGENTE" : originalTitle;
                 isAlert = !isAlert;
             }, 1000);
         }
 
-        function stopTitleBlink() {
-            titleBlinking = false;
-            document.title = originalTitle;
-        }
+        function stopTitleBlink() { titleBlinking = false; document.title = originalTitle; }
 
-        // ==================== URGENT TASKS CHECKER ====================
         function checkUrgentTasks() {
             const urgentTasks = tasks.work.filter(t => t.urgent);
-            
             if (urgentTasks.length > 0) {
-                // Play sound
-                playUrgentSound();
-                
-                // Send notification
-                const taskNames = urgentTasks.map(t => t.text).join(', ');
-                sendNotification('🔴 Tareas urgentes pendientes', taskNames);
-                
-                // Blink title if tab not focused
-                if (document.hidden) {
-                    startTitleBlink();
-                }
+                playSound('urgent');
+                sendNotification('🔴 Tareas urgentes', urgentTasks.map(t => t.text).join(', '));
+                if (document.hidden) startTitleBlink();
             } else {
                 stopTitleBlink();
             }
         }
 
         function startUrgentChecker() {
-            // Initial check after 1 second
             setTimeout(checkUrgentTasks, 1000);
-            
-            // Then every 20 minutes
             urgentInterval = setInterval(checkUrgentTasks, URGENT_INTERVAL);
         }
 
-        // Stop blinking when tab becomes visible
-        document.addEventListener('visibilitychange', () => {
-            if (!document.hidden) {
-                stopTitleBlink();
-            }
-        });
+        document.addEventListener('visibilitychange', () => { if (!document.hidden) stopTitleBlink(); });
 
         // ==================== DOM ====================
         const syncDot = document.getElementById('syncDot');
@@ -1071,57 +1459,43 @@
         const options = { weekday: 'long', day: 'numeric', month: 'long' };
         document.getElementById('currentDate').textContent = today.toLocaleDateString('es-ES', options);
 
-        // ==================== SYNC STATUS ====================
         function updateSyncStatus(status) {
             syncDot.className = 'sync-dot';
-            if (status === 'online') {
-                syncText.textContent = 'Sincronizado';
-            } else if (status === 'offline') {
-                syncDot.classList.add('offline');
-                syncText.textContent = 'Sin conexión';
-            } else if (status === 'syncing') {
-                syncDot.classList.add('syncing');
-                syncText.textContent = 'Sincronizando...';
-            }
+            if (status === 'online') syncText.textContent = 'Sincronizado';
+            else if (status === 'offline') { syncDot.classList.add('offline'); syncText.textContent = 'Sin conexión'; }
+            else if (status === 'syncing') { syncDot.classList.add('syncing'); syncText.textContent = 'Sincronizando...'; }
         }
 
         window.addEventListener('online', () => { isOnline = true; updateSyncStatus('online'); });
         window.addEventListener('offline', () => { isOnline = false; updateSyncStatus('offline'); });
 
-        // ==================== UTILITIES ====================
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
 
-        function vibrate() {
-            if (navigator.vibrate) navigator.vibrate(10);
-        }
+        function vibrate() { if (navigator.vibrate) navigator.vibrate(10); }
+        function generateId() { return Date.now().toString(36) + Math.random().toString(36).substr(2); }
 
-        function generateId() {
-            return Date.now().toString(36) + Math.random().toString(36).substr(2);
-        }
-
-        // ==================== NAVIGATION ====================
         window.showPage = function(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             window.scrollTo(0, 0);
         };
 
-        // ==================== RENDER FUNCTIONS ====================
+        // ==================== RENDER ====================
         function renderTasks(category) {
             const list = document.getElementById(`${category}List`);
             const count = document.getElementById(`${category}Count`);
             const categoryTasks = tasks[category] || [];
 
             list.innerHTML = '';
-
             if (categoryTasks.length === 0) {
                 list.innerHTML = `<div class="empty-state small"><div class="empty-icon small">✓</div><p class="empty-text">Sin pendientes</p></div>`;
             } else {
                 categoryTasks.forEach((task) => {
+                    const xpAmount = task.urgent ? 30 : 10;
                     const taskEl = document.createElement('div');
                     taskEl.className = `task-item${task.urgent ? ' urgent' : ''}`;
                     taskEl.innerHTML = `
@@ -1132,12 +1506,12 @@
                             ${task.urgent ? '<span class="urgent-badge">URGENTE</span>' : ''}
                             ${escapeHtml(task.text)}
                         </span>
+                        <span class="task-xp">+${xpAmount} XP</span>
                         <span class="task-time">${task.time || ''}</span>
                     `;
                     list.appendChild(taskEl);
                 });
             }
-
             count.textContent = categoryTasks.length;
         }
 
@@ -1146,7 +1520,6 @@
             const count = document.getElementById('dailyTasksCount');
 
             list.innerHTML = '';
-
             if (dailyTasks.length === 0) {
                 list.innerHTML = `<div class="empty-state small"><div class="empty-icon small">🌅</div><p class="empty-text">Sin rutinas</p></div>`;
             } else {
@@ -1160,6 +1533,7 @@
                         <span class="task-text editable" contenteditable="true" 
                               onblur="editDailyTask('${task.id}', this)" 
                               onkeydown="handleEditKeydown(event, this)">${escapeHtml(task.text)}</span>
+                        <span class="task-xp">+10 XP</span>
                         <div class="task-actions">
                             <button class="action-btn" onclick="deleteDailyTask('${task.id}')">✕</button>
                         </div>
@@ -1170,6 +1544,7 @@
 
             const completed = dailyTasks.filter(t => t.completedToday).length;
             count.textContent = `${completed} / ${dailyTasks.length}`;
+            updateStatsUI();
         }
 
         function renderWishlist() {
@@ -1177,7 +1552,6 @@
             const count = document.getElementById('wishCount');
 
             list.innerHTML = '';
-
             if (wishlist.length === 0) {
                 list.innerHTML = `<div class="empty-state"><div class="empty-icon">🎁</div><p class="empty-text">Lista vacía</p></div>`;
             } else {
@@ -1198,7 +1572,6 @@
                     list.appendChild(wishEl);
                 });
             }
-
             count.textContent = wishlist.length;
         }
 
@@ -1211,7 +1584,7 @@
                     renderTasks(category);
                     updateSyncStatus('online');
                 }, (error) => {
-                    console.error(`Error listening to ${category}:`, error);
+                    console.error(error);
                     updateSyncStatus('offline');
                 });
             });
@@ -1232,7 +1605,6 @@
             setTimeout(() => loadingOverlay.classList.add('hidden'), 500);
         }
 
-        // ==================== DAILY RESET ====================
         async function checkDailyReset() {
             const lastReset = localStorage.getItem('lastDailyReset') || '';
             if (lastReset !== todayStr) {
@@ -1255,26 +1627,15 @@
             const time = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
             const id = generateId();
 
-            const taskData = {
-                text,
-                time,
-                createdAt: Date.now()
-            };
-
-            if (category === 'work' && urgent) {
-                taskData.urgent = true;
-            }
+            const taskData = { text, time, createdAt: Date.now() };
+            if (category === 'work' && urgent) taskData.urgent = true;
 
             updateSyncStatus('syncing');
             await setDoc(doc(db, `tasks_${category}`, id), taskData);
 
             input.value = '';
             vibrate();
-            
-            // Unlock audio on first interaction
-            if (audioContext.state === 'suspended') {
-                audioContext.resume();
-            }
+            if (audioContext.state === 'suspended') audioContext.resume();
         };
 
         window.completeTask = async function(category, id) {
@@ -1284,17 +1645,27 @@
             );
 
             if (taskEl && !taskEl.classList.contains('completed')) {
+                const task = tasks[category].find(t => t.id === id);
+                const xpAmount = task?.urgent ? 30 : 10;
+
                 taskEl.classList.add('completed');
                 vibrate();
+                playSound('complete');
+
+                // Check early bird
+                const hour = new Date().getHours();
+                if (hour < 8) gameStats.earlyBirdCount++;
+
+                gameStats.totalTasksCompleted++;
+                addXP(xpAmount);
 
                 setTimeout(async () => {
                     updateSyncStatus('syncing');
                     await deleteDoc(doc(db, `tasks_${category}`, id));
                     
-                    // Check if no more urgent tasks
-                    const remainingUrgent = tasks.work.filter(t => t.urgent && t.id !== id);
-                    if (remainingUrgent.length === 0) {
-                        stopTitleBlink();
+                    if (task?.urgent) {
+                        const remaining = tasks.work.filter(t => t.urgent && t.id !== id);
+                        if (remaining.length === 0) stopTitleBlink();
                     }
                 }, 3000);
             }
@@ -1307,11 +1678,7 @@
 
             const id = generateId();
             updateSyncStatus('syncing');
-            await setDoc(doc(db, 'dailyTasks', id), {
-                text,
-                completedToday: false,
-                createdAt: Date.now()
-            });
+            await setDoc(doc(db, 'dailyTasks', id), { text, completedToday: false, createdAt: Date.now() });
 
             input.value = '';
             vibrate();
@@ -1325,10 +1692,18 @@
                 );
                 if (taskEl) taskEl.classList.add('completed');
                 vibrate();
+                playSound('complete');
+
+                const hour = new Date().getHours();
+                if (hour < 8) gameStats.earlyBirdCount++;
+
+                gameStats.totalTasksCompleted++;
+                addXP(10);
 
                 setTimeout(async () => {
                     updateSyncStatus('syncing');
                     await setDoc(doc(db, 'dailyTasks', id), { ...task, completedToday: true });
+                    checkDailyCompletion();
                 }, 3000);
             }
         };
@@ -1336,19 +1711,13 @@
         window.editDailyTask = async function(id, element) {
             const newText = element.textContent.trim();
             const task = dailyTasks.find(t => t.id === id);
-            if (!newText || !task) {
-                element.textContent = task?.text || '';
-                return;
-            }
+            if (!newText || !task) { element.textContent = task?.text || ''; return; }
             updateSyncStatus('syncing');
             await setDoc(doc(db, 'dailyTasks', id), { ...task, text: newText });
         };
 
         window.handleEditKeydown = function(event, element) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                element.blur();
-            }
+            if (event.key === 'Enter') { event.preventDefault(); element.blur(); }
         };
 
         window.deleteDailyTask = async function(id) {
@@ -1367,11 +1736,7 @@
 
             const id = generateId();
             updateSyncStatus('syncing');
-            await setDoc(doc(db, 'wishlist', id), {
-                title,
-                url,
-                createdAt: Date.now()
-            });
+            await setDoc(doc(db, 'wishlist', id), { title, url, createdAt: Date.now() });
 
             titleInput.value = '';
             urlInput.value = '';
@@ -1404,14 +1769,12 @@
             if (e.key === 'Enter') window.addWish();
         });
 
-        // ==================== PWA INSTALL ====================
+        // ==================== PWA ====================
         function isStandalone() {
             return window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
         }
 
-        function isIOS() {
-            return /iPad|iPhone|iPod/.test(navigator.userAgent);
-        }
+        function isIOS() { return /iPad|iPhone|iPod/.test(navigator.userAgent); }
 
         window.hideInstallPrompt = function() {
             document.getElementById('installPrompt').classList.remove('show');
@@ -1424,8 +1787,10 @@
 
         // ==================== INIT ====================
         setupListeners();
+        loadGameStats();
         startUrgentChecker();
         checkNotificationPermission();
+        renderAchievements();
     </script>
 </body>
 </html>
