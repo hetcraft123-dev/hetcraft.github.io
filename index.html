@@ -194,16 +194,8 @@
             margin-top: 4px;
         }
 
-        /* Streak fire animation */
-        .streak-fire {
-            display: inline-block;
-            animation: fireFlicker 0.5s ease-in-out infinite alternate;
-        }
-
-        @keyframes fireFlicker {
-            from { transform: scale(1) rotate(-5deg); }
-            to { transform: scale(1.1) rotate(5deg); }
-        }
+        .streak-fire { display: inline-block; animation: fireFlicker 0.5s ease-in-out infinite alternate; }
+        @keyframes fireFlicker { from { transform: scale(1) rotate(-5deg); } to { transform: scale(1.1) rotate(5deg); } }
 
         /* ==================== ACHIEVEMENTS ==================== */
         .achievements-btn {
@@ -245,34 +237,15 @@
             transition: all 0.3s ease;
         }
 
-        .achievement-popup.show {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-            pointer-events: auto;
-        }
-
+        .achievement-popup.show { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
         .achievement-popup-icon { font-size: 4rem; margin-bottom: 16px; }
-        .achievement-popup-title {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--accent-xp);
-            margin-bottom: 8px;
-        }
+        .achievement-popup-title { font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; font-weight: 700; color: var(--accent-xp); margin-bottom: 8px; }
         .achievement-popup-desc { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; }
-        .achievement-popup-xp {
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--accent-xp);
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
+        .achievement-popup-xp { font-family: 'JetBrains Mono', monospace; color: var(--accent-xp); font-size: 1.1rem; font-weight: 600; }
 
         .achievement-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.8);
             z-index: 1999;
             opacity: 0;
@@ -282,7 +255,6 @@
 
         .achievement-overlay.show { opacity: 1; pointer-events: auto; }
 
-        /* Achievements page */
         .achievements-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -299,20 +271,11 @@
             transition: all 0.3s ease;
         }
 
-        .achievement-card.unlocked {
-            border-color: var(--accent-xp);
-            box-shadow: 0 0 20px var(--accent-xp-glow);
-        }
-
+        .achievement-card.unlocked { border-color: var(--accent-xp); box-shadow: 0 0 20px var(--accent-xp-glow); }
         .achievement-card.locked { opacity: 0.4; }
         .achievement-card-icon { font-size: 2rem; margin-bottom: 8px; }
         .achievement-card.locked .achievement-card-icon { filter: grayscale(1); }
-        .achievement-card-name {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
+        .achievement-card-name { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 600; margin-bottom: 4px; }
         .achievement-card-desc { font-size: 0.65rem; color: var(--text-secondary); }
 
         /* ==================== COLUMNS ==================== */
@@ -324,9 +287,7 @@
             margin: 0 auto 30px;
         }
 
-        @media (max-width: 1100px) {
-            .columns-container { grid-template-columns: 1fr; max-width: 100%; }
-        }
+        @media (max-width: 1100px) { .columns-container { grid-template-columns: 1fr; max-width: 100%; } }
 
         .column {
             background: var(--bg-secondary);
@@ -341,12 +302,7 @@
         .column-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
         .column-icon { font-size: 1.2rem; }
 
-        .column-title {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.95rem;
-            font-weight: 600;
-        }
-
+        .column-title { font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; font-weight: 600; }
         .column.personal .column-title { color: var(--accent); }
         .column.work .column-title { color: var(--accent-work); }
         .column.business .column-title { color: var(--accent-business); }
@@ -415,26 +371,11 @@
 
         .tasks-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 4px; }
 
-        .tasks-title {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
+        .tasks-title { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 2px; }
         .tasks-title.daily { color: var(--accent-daily); }
         .tasks-title.wish { color: var(--accent-wish); }
 
-        .tasks-count {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--accent);
-            background: rgba(61, 90, 254, 0.15);
-            padding: 3px 8px;
-            border-radius: 20px;
-        }
-
+        .tasks-count { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--accent); background: rgba(61, 90, 254, 0.15); padding: 3px 8px; border-radius: 20px; }
         .column.work .tasks-count { color: var(--accent-work); background: rgba(0, 191, 165, 0.15); }
         .column.business .tasks-count { color: var(--accent-business); background: rgba(170, 0, 255, 0.15); }
         .tasks-count.daily { color: var(--accent-daily); background: rgba(255, 145, 0, 0.15); }
@@ -462,15 +403,8 @@
             animation: urgentPulse 2s ease-in-out infinite;
         }
 
-        @keyframes urgentPulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 23, 68, 0); }
-            50% { box-shadow: 0 0 15px 2px rgba(255, 23, 68, 0.3); }
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes urgentPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(255, 23, 68, 0); } 50% { box-shadow: 0 0 15px 2px rgba(255, 23, 68, 0.3); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         .task-item:hover { background: var(--bg-hover); border-color: #303035; }
         .task-item.urgent:hover { background: rgba(255, 23, 68, 0.12); border-color: var(--accent-urgent); }
@@ -479,20 +413,11 @@
         .task-item.daily-task.completed { animation: fadeOutDaily 0.5s ease forwards; animation-delay: 2.5s; }
         .task-item.completed .task-text { text-decoration: line-through; color: var(--text-secondary); }
 
-        @keyframes fadeOut {
-            0% { opacity: 1; transform: translateX(0) scale(1); }
-            50% { opacity: 0.5; transform: translateX(20px) scale(0.98); }
-            100% { opacity: 0; transform: translateX(40px) scale(0.95); height: 0; padding: 0; margin: 0; border: none; }
-        }
-
-        @keyframes fadeOutDaily {
-            0% { opacity: 1; transform: scale(1); }
-            100% { opacity: 0.3; transform: scale(0.98); }
-        }
+        @keyframes fadeOut { 0% { opacity: 1; transform: translateX(0) scale(1); } 50% { opacity: 0.5; transform: translateX(20px) scale(0.98); } 100% { opacity: 0; transform: translateX(40px) scale(0.95); height: 0; padding: 0; margin: 0; border: none; } }
+        @keyframes fadeOutDaily { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0.3; transform: scale(0.98); } }
 
         .checkbox {
-            width: 22px;
-            height: 22px;
+            width: 22px; height: 22px;
             border: 2px solid var(--border);
             border-radius: 6px;
             cursor: pointer;
@@ -517,54 +442,19 @@
         .task-text { flex: 1; font-size: 0.9rem; font-weight: 300; transition: all 0.3s ease; word-break: break-word; }
         .task-item.urgent .task-text { color: var(--accent-urgent); font-weight: 500; }
 
-        .urgent-badge {
-            font-size: 0.6rem;
-            background: var(--accent-urgent);
-            color: white;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 600;
-            margin-right: 6px;
-            animation: blink 1s ease-in-out infinite;
-        }
-
+        .urgent-badge { font-size: 0.6rem; background: var(--accent-urgent); color: white; padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-weight: 600; margin-right: 6px; animation: blink 1s ease-in-out infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
         .task-text.editable { cursor: text; padding: 2px 6px; margin: -2px -6px; border-radius: 4px; }
         .task-text.editable:hover { background: rgba(255, 255, 255, 0.05); }
         .task-text.editable:focus { outline: none; background: rgba(255, 145, 0, 0.1); }
 
-        .task-time {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
-            color: var(--text-secondary);
-            opacity: 0.6;
-        }
-
-        .task-xp {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.6rem;
-            color: var(--accent-xp);
-            background: rgba(255, 215, 0, 0.15);
-            padding: 2px 6px;
-            border-radius: 4px;
-            margin-left: 6px;
-        }
+        .task-time { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--text-secondary); opacity: 0.6; }
+        .task-xp { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--accent-xp); background: rgba(255, 215, 0, 0.15); padding: 2px 6px; border-radius: 4px; margin-left: 6px; }
 
         .task-actions { display: flex; gap: 6px; }
 
-        .action-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            padding: 6px;
-            font-size: 14px;
-            transition: all 0.2s ease;
-            border-radius: 4px;
-        }
-
+        .action-btn { background: transparent; border: none; color: var(--text-secondary); cursor: pointer; padding: 6px; font-size: 14px; transition: all 0.2s ease; border-radius: 4px; }
         .action-btn:hover { color: #ff5252; background: rgba(255, 82, 82, 0.1); transform: none; box-shadow: none; }
 
         .empty-state { text-align: center; padding: 30px 16px; color: var(--text-secondary); }
@@ -586,46 +476,16 @@
         .daily-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
         .daily-icon { font-size: 1.2rem; }
         .daily-title-group { flex: 1; }
-
-        .daily-main-title {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--accent-daily);
-        }
-
+        .daily-main-title { font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; font-weight: 600; color: var(--accent-daily); }
         .daily-subtitle { color: var(--text-secondary); font-size: 0.7rem; font-weight: 300; margin-top: 2px; }
 
         .daily-content { display: grid; grid-template-columns: 280px 1fr; gap: 16px; }
         @media (max-width: 700px) { .daily-content { grid-template-columns: 1fr; } }
 
-        .daily-stats {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 16px;
-            padding: 12px;
-            background: rgba(255, 215, 0, 0.05);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 215, 0, 0.2);
-        }
-
-        .daily-stat {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .daily-stat-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
-
-        .daily-stat-label {
-            font-size: 0.6rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-        }
+        .daily-stats { display: flex; gap: 16px; margin-bottom: 16px; padding: 12px; background: rgba(255, 215, 0, 0.05); border-radius: 10px; border: 1px solid rgba(255, 215, 0, 0.2); }
+        .daily-stat { display: flex; flex-direction: column; align-items: center; }
+        .daily-stat-value { font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; font-weight: 700; }
+        .daily-stat-label { font-size: 0.6rem; color: var(--text-secondary); text-transform: uppercase; }
 
         /* ==================== FLOATING BUTTONS ==================== */
         .floating-btn {
@@ -682,24 +542,61 @@
             margin-bottom: 24px;
         }
 
-        .wish-form-title {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--accent-wish);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 14px;
-        }
-
+        .wish-form-title { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent-wish); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 14px; }
         .wish-inputs { display: flex; flex-direction: column; gap: 10px; }
         .wish-inputs .input-container { background: var(--bg-primary); }
 
+        /* Image upload area */
+        .image-upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-upload-area:hover { border-color: var(--accent-wish); background: rgba(255, 64, 129, 0.05); }
+        .image-upload-area.dragover { border-color: var(--accent-wish); background: rgba(255, 64, 129, 0.1); }
+        .image-upload-area.has-image { padding: 10px; }
+
+        .image-upload-placeholder { color: var(--text-secondary); font-size: 0.85rem; }
+        .image-upload-placeholder-icon { font-size: 2rem; margin-bottom: 8px; opacity: 0.5; }
+        .image-upload-placeholder-text { margin-bottom: 4px; }
+        .image-upload-placeholder-hint { font-size: 0.7rem; opacity: 0.6; }
+
+        .image-preview { max-width: 100%; max-height: 200px; border-radius: 8px; object-fit: contain; }
+        .image-preview-container { position: relative; display: inline-block; }
+        .image-remove-btn {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent-urgent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-remove-btn:hover { transform: scale(1.1); box-shadow: none; }
+
+        input[type="file"] { display: none; }
+
         .add-wish-btn { width: 100%; background: var(--accent-wish); padding: 14px; margin-top: 6px; }
         .add-wish-btn:hover { box-shadow: 0 4px 20px var(--accent-wish-glow); }
+        .add-wish-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
         .wish-item {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 14px;
             background: var(--bg-secondary);
             border: 1px solid rgba(255, 64, 129, 0.15);
@@ -710,7 +607,17 @@
         }
 
         .wish-item:hover { background: var(--bg-hover); border-color: rgba(255, 64, 129, 0.3); }
-        .wish-icon { font-size: 1.4rem; flex-shrink: 0; }
+
+        .wish-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: var(--bg-primary);
+        }
+
+        .wish-icon { font-size: 1.4rem; flex-shrink: 0; padding-top: 4px; }
         .wish-info { flex: 1; min-width: 0; }
         .wish-title { font-size: 0.95rem; font-weight: 500; margin-bottom: 4px; word-break: break-word; }
 
@@ -727,7 +634,7 @@
         }
 
         .wish-url:hover { opacity: 1; text-decoration: underline; }
-        .wish-actions { display: flex; gap: 6px; }
+        .wish-actions { display: flex; gap: 6px; flex-shrink: 0; }
 
         .wish-action-btn {
             background: transparent;
@@ -748,8 +655,7 @@
         .notification-banner {
             position: fixed;
             top: calc(10px + var(--safe-top));
-            left: 20px;
-            right: 20px;
+            left: 20px; right: 20px;
             background: var(--bg-secondary);
             border: 1px solid var(--accent-urgent);
             border-radius: 12px;
@@ -760,11 +666,7 @@
         }
 
         .notification-banner.show { display: flex; }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
 
         .notification-banner-text { flex: 1; font-size: 0.85rem; }
         .notification-banner-btn { background: var(--accent-urgent); padding: 8px 16px; font-size: 0.75rem; }
@@ -773,8 +675,7 @@
         .install-prompt {
             position: fixed;
             bottom: calc(90px + var(--safe-bottom));
-            left: 20px;
-            right: 20px;
+            left: 20px; right: 20px;
             background: var(--bg-secondary);
             border: 1px solid var(--accent);
             border-radius: 12px;
@@ -785,21 +686,15 @@
         }
 
         .install-prompt.show { display: block; }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         .install-prompt-text { font-size: 0.85rem; margin-bottom: 12px; line-height: 1.5; }
         .install-prompt-steps { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 12px; }
         .install-prompt-close { position: absolute; top: 10px; right: 10px; background: transparent; border: none; color: var(--text-secondary); font-size: 18px; cursor: pointer; padding: 4px; }
 
-        /* XP popup animation */
         .xp-popup {
             position: fixed;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             font-family: 'JetBrains Mono', monospace;
             font-size: 3rem;
@@ -811,24 +706,12 @@
             z-index: 3000;
         }
 
-        .xp-popup.show {
-            animation: xpPop 1.5s ease-out forwards;
-        }
+        .xp-popup.show { animation: xpPop 1.5s ease-out forwards; }
+        @keyframes xpPop { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); } 40% { transform: translate(-50%, -50%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -80%) scale(1); } }
 
-        @keyframes xpPop {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-            20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
-            40% { transform: translate(-50%, -50%) scale(1); }
-            100% { opacity: 0; transform: translate(-50%, -80%) scale(1); }
-        }
-
-        /* Victory animation */
         .victory-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0, 0, 0, 0.9);
             display: flex;
             flex-direction: column;
@@ -841,31 +724,12 @@
         }
 
         .victory-overlay.show { opacity: 1; pointer-events: auto; }
-
         .victory-icon { font-size: 6rem; animation: victoryBounce 0.5s ease infinite alternate; }
-        @keyframes victoryBounce {
-            from { transform: scale(1) rotate(-5deg); }
-            to { transform: scale(1.1) rotate(5deg); }
-        }
+        @keyframes victoryBounce { from { transform: scale(1) rotate(-5deg); } to { transform: scale(1.1) rotate(5deg); } }
 
-        .victory-text {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--accent-xp);
-            margin-top: 20px;
-            text-shadow: 0 0 30px var(--accent-xp-glow);
-        }
-
+        .victory-text { font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 700; color: var(--accent-xp); margin-top: 20px; text-shadow: 0 0 30px var(--accent-xp-glow); }
         .victory-subtext { color: var(--text-secondary); margin-top: 10px; font-size: 1rem; }
-
-        .victory-close {
-            margin-top: 30px;
-            background: var(--accent-xp);
-            color: #000;
-            padding: 14px 40px;
-            font-size: 1rem;
-        }
+        .victory-close { margin-top: 30px; background: var(--accent-xp); color: #000; padding: 14px 40px; font-size: 1rem; }
 
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: var(--bg-primary); }
@@ -885,8 +749,7 @@
         .loading-overlay.hidden { opacity: 0; pointer-events: none; }
 
         .loading-spinner {
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             border: 3px solid var(--border);
             border-top-color: var(--accent);
             border-radius: 50%;
@@ -894,6 +757,26 @@
         }
 
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Upload progress */
+        .upload-progress {
+            width: 100%;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            margin-top: 10px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .upload-progress.show { display: block; }
+
+        .upload-progress-bar {
+            height: 100%;
+            background: var(--accent-wish);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
     </style>
 </head>
 <body>
@@ -901,10 +784,8 @@
         <div class="loading-spinner"></div>
     </div>
 
-    <!-- XP Popup -->
     <div class="xp-popup" id="xpPopup">+10 XP</div>
 
-    <!-- Victory Overlay -->
     <div class="victory-overlay" id="victoryOverlay">
         <div class="victory-icon">🏆</div>
         <div class="victory-text">¡RUTINA COMPLETA!</div>
@@ -912,7 +793,6 @@
         <button class="victory-close" onclick="hideVictory()">¡Genial!</button>
     </div>
 
-    <!-- Achievement Popup -->
     <div class="achievement-overlay" id="achievementOverlay" onclick="hideAchievement()"></div>
     <div class="achievement-popup" id="achievementPopup">
         <div class="achievement-popup-icon" id="achievementIcon">🏅</div>
@@ -921,7 +801,6 @@
         <div class="achievement-popup-xp" id="achievementXp">+50 XP</div>
     </div>
 
-    <!-- Notification permission banner -->
     <div class="notification-banner" id="notificationBanner">
         <span class="notification-banner-text">🔔 Activa las notificaciones para tareas urgentes</span>
         <button class="notification-banner-btn" onclick="requestNotificationPermission()">Activar</button>
@@ -940,7 +819,6 @@
             </div>
         </header>
 
-        <!-- Stats Bar -->
         <div class="stats-bar">
             <div class="stat-item">
                 <div class="level-badge" id="levelBadge">🐺 NOVATO</div>
@@ -1052,13 +930,8 @@
             </div>
         </div>
 
-        <button class="achievements-btn" onclick="showPage('achievementsPage')">
-            🏆 Logros
-        </button>
-
-        <button class="floating-btn" onclick="showPage('wishlistPage')">
-            🎁 WishList <span class="arrow">→</span>
-        </button>
+        <button class="achievements-btn" onclick="showPage('achievementsPage')">🏆 Logros</button>
+        <button class="floating-btn" onclick="showPage('wishlistPage')">🎁 WishList <span class="arrow">→</span></button>
     </div>
 
     <!-- PÁGINA LOGROS -->
@@ -1090,7 +963,26 @@
                     <div class="input-container wish">
                         <input type="url" id="wishUrlInput" placeholder="URL (opcional)" autocomplete="off">
                     </div>
-                    <button class="add-wish-btn" onclick="addWish()">Agregar</button>
+                    
+                    <!-- Image upload area -->
+                    <div class="image-upload-area" id="imageUploadArea" onclick="document.getElementById('imageFileInput').click()">
+                        <div class="image-upload-placeholder" id="uploadPlaceholder">
+                            <div class="image-upload-placeholder-icon">📷</div>
+                            <div class="image-upload-placeholder-text">Arrastra una imagen o haz clic para subir</div>
+                            <div class="image-upload-placeholder-hint">También puedes pegar con Ctrl+V</div>
+                        </div>
+                        <div class="image-preview-container" id="imagePreviewContainer" style="display: none;">
+                            <img class="image-preview" id="imagePreview" src="" alt="Preview">
+                            <button class="image-remove-btn" onclick="event.stopPropagation(); removeImage()">✕</button>
+                        </div>
+                    </div>
+                    <input type="file" id="imageFileInput" accept="image/*" onchange="handleFileSelect(event)">
+                    
+                    <div class="upload-progress" id="uploadProgress">
+                        <div class="upload-progress-bar" id="uploadProgressBar" style="width: 0%"></div>
+                    </div>
+                    
+                    <button class="add-wish-btn" id="addWishBtn" onclick="addWish()">Agregar</button>
                 </div>
             </div>
             <div class="tasks-header">
@@ -1111,6 +1003,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
         import { getFirestore, collection, doc, setDoc, getDoc, deleteDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDetXdN-ujotpEY7HNJMQB2JEOYooLxpkk",
@@ -1123,22 +1016,14 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const storage = getStorage(app);
 
         // ==================== STATE ====================
         let tasks = { personal: [], work: [], business: [] };
         let dailyTasks = [];
         let wishlist = [];
-        let gameStats = {
-            xp: 0,
-            level: 1,
-            streak: 0,
-            lastCompletedDate: null,
-            achievements: [],
-            totalTasksCompleted: 0,
-            dailyCompletions: 0,
-            earlyBirdCount: 0
-        };
-
+        let gameStats = { xp: 0, level: 1, streak: 0, lastCompletedDate: null, achievements: [], totalTasksCompleted: 0, dailyCompletions: 0, earlyBirdCount: 0 };
+        let pendingImageFile = null;
         let isOnline = navigator.onLine;
         let urgentInterval = null;
         let originalTitle = "Tareas";
@@ -1148,7 +1033,7 @@
         const todayStr = today.toISOString().split('T')[0];
         const URGENT_INTERVAL = 20 * 60 * 1000;
 
-        // ==================== LEVELS CONFIG ====================
+        // ==================== LEVELS & ACHIEVEMENTS ====================
         const LEVELS = [
             { name: 'NOVATO', icon: '🐺', minXp: 0, maxXp: 100 },
             { name: 'GUERRERO', icon: '⚔️', minXp: 100, maxXp: 500 },
@@ -1156,7 +1041,6 @@
             { name: 'LEYENDA', icon: '👑', minXp: 1500, maxXp: Infinity }
         ];
 
-        // ==================== ACHIEVEMENTS CONFIG ====================
         const ACHIEVEMENTS = [
             { id: 'first_task', name: 'Primer Paso', desc: 'Completa tu primera tarea', icon: '🎯', xp: 10, check: (s) => s.totalTasksCompleted >= 1 },
             { id: 'daily_warrior', name: 'Guerrero Diario', desc: 'Completa todas las rutinas diarias', icon: '⚔️', xp: 50, check: (s) => s.dailyCompletions >= 1 },
@@ -1178,42 +1062,112 @@
 
         function playSound(type) {
             if (audioContext.state === 'suspended') audioContext.resume();
-
-            if (type === 'complete') {
-                playTone(523.25, 0.1, 0.15);
-                setTimeout(() => playTone(659.25, 0.1, 0.15), 100);
-            } else if (type === 'achievement') {
-                playTone(523.25, 0.2, 0.2);
-                setTimeout(() => playTone(659.25, 0.2, 0.2), 150);
-                setTimeout(() => playTone(783.99, 0.2, 0.2), 300);
-                setTimeout(() => playTone(1046.50, 0.3, 0.3), 450);
-            } else if (type === 'victory') {
-                const notes = [523.25, 659.25, 783.99, 1046.50, 783.99, 1046.50, 1318.51];
-                notes.forEach((freq, i) => {
-                    setTimeout(() => playTone(freq, 0.2, 0.2), i * 120);
-                });
-            } else if (type === 'levelup') {
-                playTone(440, 0.15, 0.2);
-                setTimeout(() => playTone(554.37, 0.15, 0.2), 100);
-                setTimeout(() => playTone(659.25, 0.15, 0.2), 200);
-                setTimeout(() => playTone(880, 0.3, 0.3), 300);
-            } else if (type === 'urgent') {
-                playTone(880, 0.3, 0.2);
-                setTimeout(() => playTone(988, 0.3, 0.2), 200);
-            }
+            if (type === 'complete') { playTone(523.25, 0.1, 0.15); setTimeout(() => playTone(659.25, 0.1, 0.15), 100); }
+            else if (type === 'achievement') { playTone(523.25, 0.2, 0.2); setTimeout(() => playTone(659.25, 0.2, 0.2), 150); setTimeout(() => playTone(783.99, 0.2, 0.2), 300); setTimeout(() => playTone(1046.50, 0.3, 0.3), 450); }
+            else if (type === 'victory') { [523.25, 659.25, 783.99, 1046.50, 783.99, 1046.50, 1318.51].forEach((freq, i) => setTimeout(() => playTone(freq, 0.2, 0.2), i * 120)); }
+            else if (type === 'levelup') { playTone(440, 0.15, 0.2); setTimeout(() => playTone(554.37, 0.15, 0.2), 100); setTimeout(() => playTone(659.25, 0.15, 0.2), 200); setTimeout(() => playTone(880, 0.3, 0.3), 300); }
+            else if (type === 'urgent') { playTone(880, 0.3, 0.2); setTimeout(() => playTone(988, 0.3, 0.2), 200); }
         }
 
         function playTone(freq, duration, volume) {
             const osc = audioContext.createOscillator();
             const gain = audioContext.createGain();
-            osc.connect(gain);
-            gain.connect(audioContext.destination);
-            osc.frequency.value = freq;
-            osc.type = 'sine';
+            osc.connect(gain); gain.connect(audioContext.destination);
+            osc.frequency.value = freq; osc.type = 'sine';
             gain.gain.setValueAtTime(volume, audioContext.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
-            osc.start(audioContext.currentTime);
-            osc.stop(audioContext.currentTime + duration);
+            osc.start(audioContext.currentTime); osc.stop(audioContext.currentTime + duration);
+        }
+
+        // ==================== IMAGE HANDLING ====================
+        const imageUploadArea = document.getElementById('imageUploadArea');
+        const imagePreview = document.getElementById('imagePreview');
+        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+        const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+        const uploadProgress = document.getElementById('uploadProgress');
+        const uploadProgressBar = document.getElementById('uploadProgressBar');
+
+        // Drag and drop
+        imageUploadArea.addEventListener('dragover', (e) => { e.preventDefault(); imageUploadArea.classList.add('dragover'); });
+        imageUploadArea.addEventListener('dragleave', () => imageUploadArea.classList.remove('dragover'));
+        imageUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            imageUploadArea.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) handleImageFile(file);
+        });
+
+        // Paste from clipboard
+        document.addEventListener('paste', (e) => {
+            const wishlistPage = document.getElementById('wishlistPage');
+            if (!wishlistPage.classList.contains('active')) return;
+            
+            const items = e.clipboardData.items;
+            for (let item of items) {
+                if (item.type.startsWith('image/')) {
+                    const file = item.getAsFile();
+                    handleImageFile(file);
+                    break;
+                }
+            }
+        });
+
+        window.handleFileSelect = function(e) {
+            const file = e.target.files[0];
+            if (file) handleImageFile(file);
+        };
+
+        function handleImageFile(file) {
+            if (!file.type.startsWith('image/')) return;
+            
+            pendingImageFile = file;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imagePreview.src = e.target.result;
+                imagePreviewContainer.style.display = 'inline-block';
+                uploadPlaceholder.style.display = 'none';
+                imageUploadArea.classList.add('has-image');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        window.removeImage = function() {
+            pendingImageFile = null;
+            imagePreview.src = '';
+            imagePreviewContainer.style.display = 'none';
+            uploadPlaceholder.style.display = 'block';
+            imageUploadArea.classList.remove('has-image');
+            document.getElementById('imageFileInput').value = '';
+        };
+
+        async function uploadImage(file) {
+            const fileName = `wishlist/${Date.now()}_${file.name}`;
+            const storageRef = ref(storage, fileName);
+            
+            uploadProgress.classList.add('show');
+            uploadProgressBar.style.width = '0%';
+            
+            try {
+                // Simulate progress since uploadBytes doesn't provide progress
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += 10;
+                    if (progress <= 90) uploadProgressBar.style.width = progress + '%';
+                }, 100);
+
+                await uploadBytes(storageRef, file);
+                clearInterval(progressInterval);
+                uploadProgressBar.style.width = '100%';
+                
+                const downloadURL = await getDownloadURL(storageRef);
+                
+                setTimeout(() => uploadProgress.classList.remove('show'), 500);
+                return { url: downloadURL, path: fileName };
+            } catch (error) {
+                console.error('Upload error:', error);
+                uploadProgress.classList.remove('show');
+                return null;
+            }
         }
 
         // ==================== GAMIFICATION ====================
@@ -1230,23 +1184,18 @@
             levelBadge.textContent = `${level.icon} ${level.name}`;
             levelBadge.className = 'level-badge ' + level.name.toLowerCase();
 
-            // XP bar
             const xpInLevel = gameStats.xp - level.minXp;
             const xpNeeded = level.maxXp === Infinity ? 1000 : level.maxXp - level.minXp;
             const xpPercent = Math.min((xpInLevel / xpNeeded) * 100, 100);
             document.getElementById('xpBar').style.width = xpPercent + '%';
-            document.getElementById('xpText').textContent = level.maxXp === Infinity 
-                ? `${gameStats.xp} XP (MAX)` 
-                : `${xpInLevel} / ${xpNeeded} XP`;
+            document.getElementById('xpText').textContent = level.maxXp === Infinity ? `${gameStats.xp} XP (MAX)` : `${xpInLevel} / ${xpNeeded} XP`;
 
             document.getElementById('totalXp').textContent = gameStats.xp;
             document.getElementById('streakCount').innerHTML = `<span class="streak-fire">🔥</span> ${gameStats.streak}`;
             document.getElementById('achievementCount').textContent = gameStats.achievements.length;
 
-            // Daily stats
             const multiplier = Math.min(1 + Math.floor(gameStats.streak / 7), 5);
             document.getElementById('streakMultiplier').textContent = `x${multiplier}`;
-            
             const baseReward = dailyTasks.length * 10;
             document.getElementById('dailyXpReward').textContent = `+${baseReward * multiplier} XP`;
 
@@ -1258,20 +1207,11 @@
             gameStats.xp += amount;
             const newLevel = getLevel(gameStats.xp);
 
-            if (showPopup) {
-                showXpPopup(amount);
-            }
+            if (showPopup) showXpPopup(amount);
 
             if (newLevel.index > oldLevel.index) {
                 playSound('levelup');
-                setTimeout(() => {
-                    showAchievementPopup({
-                        icon: newLevel.icon,
-                        name: '¡SUBISTE DE NIVEL!',
-                        desc: `Ahora eres ${newLevel.name}`,
-                        xp: 0
-                    });
-                }, 500);
+                setTimeout(() => showAchievementPopup({ icon: newLevel.icon, name: '¡SUBISTE DE NIVEL!', desc: `Ahora eres ${newLevel.name}`, xp: 0 }), 500);
             }
 
             updateStatsUI();
@@ -1289,21 +1229,14 @@
 
         function checkAchievements() {
             ACHIEVEMENTS.forEach(achievement => {
-                if (!gameStats.achievements.includes(achievement.id) && achievement.check(gameStats)) {
-                    unlockAchievement(achievement);
-                }
+                if (!gameStats.achievements.includes(achievement.id) && achievement.check(gameStats)) unlockAchievement(achievement);
             });
         }
 
         function unlockAchievement(achievement) {
             gameStats.achievements.push(achievement.id);
             playSound('achievement');
-            
-            setTimeout(() => {
-                showAchievementPopup(achievement);
-                addXP(achievement.xp, false);
-            }, 300);
-
+            setTimeout(() => { showAchievementPopup(achievement); addXP(achievement.xp, false); }, 300);
             saveGameStats();
             renderAchievements();
         }
@@ -1313,7 +1246,6 @@
             document.getElementById('achievementTitle').textContent = achievement.name;
             document.getElementById('achievementDesc').textContent = achievement.desc;
             document.getElementById('achievementXp').textContent = achievement.xp > 0 ? `+${achievement.xp} XP` : '';
-            
             document.getElementById('achievementOverlay').classList.add('show');
             document.getElementById('achievementPopup').classList.add('show');
         }
@@ -1324,8 +1256,7 @@
         };
 
         function renderAchievements() {
-            const grid = document.getElementById('achievementsGrid');
-            grid.innerHTML = ACHIEVEMENTS.map(a => `
+            document.getElementById('achievementsGrid').innerHTML = ACHIEVEMENTS.map(a => `
                 <div class="achievement-card ${gameStats.achievements.includes(a.id) ? 'unlocked' : 'locked'}">
                     <div class="achievement-card-icon">${a.icon}</div>
                     <div class="achievement-card-name">${a.name}</div>
@@ -1334,31 +1265,21 @@
             `).join('');
         }
 
-        function showVictory() {
-            playSound('victory');
-            document.getElementById('victoryOverlay').classList.add('show');
-        }
-
-        window.hideVictory = function() {
-            document.getElementById('victoryOverlay').classList.remove('show');
-        };
+        function showVictory() { playSound('victory'); document.getElementById('victoryOverlay').classList.add('show'); }
+        window.hideVictory = function() { document.getElementById('victoryOverlay').classList.remove('show'); };
 
         function checkDailyCompletion() {
             if (dailyTasks.length > 0 && dailyTasks.every(t => t.completedToday)) {
                 const multiplier = Math.min(1 + Math.floor(gameStats.streak / 7), 5);
                 const bonus = dailyTasks.length * 10 * multiplier;
                 
-                // Update streak
                 if (gameStats.lastCompletedDate !== todayStr) {
                     const yesterday = new Date(today);
                     yesterday.setDate(yesterday.getDate() - 1);
                     const yesterdayStr = yesterday.toISOString().split('T')[0];
                     
-                    if (gameStats.lastCompletedDate === yesterdayStr) {
-                        gameStats.streak++;
-                    } else if (gameStats.lastCompletedDate !== todayStr) {
-                        gameStats.streak = 1;
-                    }
+                    if (gameStats.lastCompletedDate === yesterdayStr) gameStats.streak++;
+                    else if (gameStats.lastCompletedDate !== todayStr) gameStats.streak = 1;
                     
                     gameStats.lastCompletedDate = todayStr;
                     gameStats.dailyCompletions++;
@@ -1372,23 +1293,16 @@
         }
 
         // ==================== FIREBASE ====================
-        async function saveGameStats() {
-            await setDoc(doc(db, 'gameStats', 'main'), gameStats);
-        }
+        async function saveGameStats() { await setDoc(doc(db, 'gameStats', 'main'), gameStats); }
 
         async function loadGameStats() {
             const docSnap = await getDoc(doc(db, 'gameStats', 'main'));
             if (docSnap.exists()) {
                 gameStats = { ...gameStats, ...docSnap.data() };
-                
-                // Check if streak should reset
                 if (gameStats.lastCompletedDate) {
                     const lastDate = new Date(gameStats.lastCompletedDate);
                     const diffDays = Math.floor((today - lastDate) / (1000 * 60 * 60 * 24));
-                    if (diffDays > 1) {
-                        gameStats.streak = 0;
-                        await saveGameStats();
-                    }
+                    if (diffDays > 1) { gameStats.streak = 0; await saveGameStats(); }
                 }
             }
             updateStatsUI();
@@ -1403,15 +1317,10 @@
         }
 
         window.requestNotificationPermission = async function() {
-            if ('Notification' in window) {
-                await Notification.requestPermission();
-                hideNotificationBanner();
-            }
+            if ('Notification' in window) { await Notification.requestPermission(); hideNotificationBanner(); }
         };
 
-        window.hideNotificationBanner = function() {
-            document.getElementById('notificationBanner').classList.remove('show');
-        };
+        window.hideNotificationBanner = function() { document.getElementById('notificationBanner').classList.remove('show'); };
 
         function sendNotification(title, body) {
             if ('Notification' in window && Notification.permission === 'granted') {
@@ -1419,7 +1328,6 @@
             }
         }
 
-        // ==================== URGENT TASKS ====================
         function startTitleBlink() {
             if (titleBlinking) return;
             titleBlinking = true;
@@ -1439,9 +1347,7 @@
                 playSound('urgent');
                 sendNotification('🔴 Tareas urgentes', urgentTasks.map(t => t.text).join(', '));
                 if (document.hidden) startTitleBlink();
-            } else {
-                stopTitleBlink();
-            }
+            } else stopTitleBlink();
         }
 
         function startUrgentChecker() {
@@ -1456,8 +1362,7 @@
         const syncText = document.getElementById('syncText');
         const loadingOverlay = document.getElementById('loadingOverlay');
 
-        const options = { weekday: 'long', day: 'numeric', month: 'long' };
-        document.getElementById('currentDate').textContent = today.toLocaleDateString('es-ES', options);
+        document.getElementById('currentDate').textContent = today.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
 
         function updateSyncStatus(status) {
             syncDot.className = 'sync-dot';
@@ -1469,12 +1374,7 @@
         window.addEventListener('online', () => { isOnline = true; updateSyncStatus('online'); });
         window.addEventListener('offline', () => { isOnline = false; updateSyncStatus('offline'); });
 
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
+        function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
         function vibrate() { if (navigator.vibrate) navigator.vibrate(10); }
         function generateId() { return Date.now().toString(36) + Math.random().toString(36).substr(2); }
 
@@ -1499,13 +1399,8 @@
                     const taskEl = document.createElement('div');
                     taskEl.className = `task-item${task.urgent ? ' urgent' : ''}`;
                     taskEl.innerHTML = `
-                        <div class="checkbox" onclick="completeTask('${category}', '${task.id}')">
-                            <span class="checkmark">✓</span>
-                        </div>
-                        <span class="task-text">
-                            ${task.urgent ? '<span class="urgent-badge">URGENTE</span>' : ''}
-                            ${escapeHtml(task.text)}
-                        </span>
+                        <div class="checkbox" onclick="completeTask('${category}', '${task.id}')"><span class="checkmark">✓</span></div>
+                        <span class="task-text">${task.urgent ? '<span class="urgent-badge">URGENTE</span>' : ''}${escapeHtml(task.text)}</span>
                         <span class="task-xp">+${xpAmount} XP</span>
                         <span class="task-time">${task.time || ''}</span>
                     `;
@@ -1527,23 +1422,15 @@
                     const taskEl = document.createElement('div');
                     taskEl.className = `task-item daily-task${task.completedToday ? ' completed' : ''}`;
                     taskEl.innerHTML = `
-                        <div class="checkbox" onclick="completeDailyTask('${task.id}')">
-                            <span class="checkmark">✓</span>
-                        </div>
-                        <span class="task-text editable" contenteditable="true" 
-                              onblur="editDailyTask('${task.id}', this)" 
-                              onkeydown="handleEditKeydown(event, this)">${escapeHtml(task.text)}</span>
+                        <div class="checkbox" onclick="completeDailyTask('${task.id}')"><span class="checkmark">✓</span></div>
+                        <span class="task-text editable" contenteditable="true" onblur="editDailyTask('${task.id}', this)" onkeydown="handleEditKeydown(event, this)">${escapeHtml(task.text)}</span>
                         <span class="task-xp">+10 XP</span>
-                        <div class="task-actions">
-                            <button class="action-btn" onclick="deleteDailyTask('${task.id}')">✕</button>
-                        </div>
+                        <div class="task-actions"><button class="action-btn" onclick="deleteDailyTask('${task.id}')">✕</button></div>
                     `;
                     list.appendChild(taskEl);
                 });
             }
-
-            const completed = dailyTasks.filter(t => t.completedToday).length;
-            count.textContent = `${completed} / ${dailyTasks.length}`;
+            count.textContent = `${dailyTasks.filter(t => t.completedToday).length} / ${dailyTasks.length}`;
             updateStatsUI();
         }
 
@@ -1559,14 +1446,14 @@
                     const wishEl = document.createElement('div');
                     wishEl.className = 'wish-item';
                     wishEl.innerHTML = `
-                        <span class="wish-icon">🛒</span>
+                        ${item.imageUrl ? `<img class="wish-image" src="${item.imageUrl}" alt="${escapeHtml(item.title)}" onerror="this.style.display='none'">` : '<span class="wish-icon">🛒</span>'}
                         <div class="wish-info">
                             <div class="wish-title">${escapeHtml(item.title)}</div>
                             ${item.url ? `<a href="${escapeHtml(item.url)}" target="_blank" class="wish-url">${escapeHtml(item.url)}</a>` : ''}
                         </div>
                         <div class="wish-actions">
                             ${item.url ? `<button class="wish-action-btn open" onclick="window.open('${escapeHtml(item.url)}', '_blank')">🔗</button>` : ''}
-                            <button class="wish-action-btn delete" onclick="deleteWish('${item.id}')">✕</button>
+                            <button class="wish-action-btn delete" onclick="deleteWish('${item.id}', '${item.imagePath || ''}')">✕</button>
                         </div>
                     `;
                     list.appendChild(wishEl);
@@ -1583,21 +1470,16 @@
                     tasks[category] = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     renderTasks(category);
                     updateSyncStatus('online');
-                }, (error) => {
-                    console.error(error);
-                    updateSyncStatus('offline');
-                });
+                }, (error) => { console.error(error); updateSyncStatus('offline'); });
             });
 
-            const dailyQuery = query(collection(db, 'dailyTasks'), orderBy('createdAt', 'asc'));
-            onSnapshot(dailyQuery, (snapshot) => {
+            onSnapshot(query(collection(db, 'dailyTasks'), orderBy('createdAt', 'asc')), (snapshot) => {
                 dailyTasks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 checkDailyReset();
                 renderDailyTasks();
             });
 
-            const wishQuery = query(collection(db, 'wishlist'), orderBy('createdAt', 'desc'));
-            onSnapshot(wishQuery, (snapshot) => {
+            onSnapshot(query(collection(db, 'wishlist'), orderBy('createdAt', 'desc')), (snapshot) => {
                 wishlist = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 renderWishlist();
             });
@@ -1609,9 +1491,7 @@
             const lastReset = localStorage.getItem('lastDailyReset') || '';
             if (lastReset !== todayStr) {
                 for (const task of dailyTasks) {
-                    if (task.completedToday) {
-                        await setDoc(doc(db, 'dailyTasks', task.id), { ...task, completedToday: false });
-                    }
+                    if (task.completedToday) await setDoc(doc(db, 'dailyTasks', task.id), { ...task, completedToday: false });
                 }
                 localStorage.setItem('lastDailyReset', todayStr);
             }
@@ -1625,14 +1505,11 @@
 
             const now = new Date();
             const time = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-            const id = generateId();
-
             const taskData = { text, time, createdAt: Date.now() };
             if (category === 'work' && urgent) taskData.urgent = true;
 
             updateSyncStatus('syncing');
-            await setDoc(doc(db, `tasks_${category}`, id), taskData);
-
+            await setDoc(doc(db, `tasks_${category}`, generateId()), taskData);
             input.value = '';
             vibrate();
             if (audioContext.state === 'suspended') audioContext.resume();
@@ -1640,9 +1517,7 @@
 
         window.completeTask = async function(category, id) {
             const list = document.getElementById(`${category}List`);
-            const taskEl = [...list.querySelectorAll('.task-item')].find(el => 
-                el.querySelector('.checkbox').getAttribute('onclick').includes(id)
-            );
+            const taskEl = [...list.querySelectorAll('.task-item')].find(el => el.querySelector('.checkbox').getAttribute('onclick').includes(id));
 
             if (taskEl && !taskEl.classList.contains('completed')) {
                 const task = tasks[category].find(t => t.id === id);
@@ -1652,21 +1527,14 @@
                 vibrate();
                 playSound('complete');
 
-                // Check early bird
-                const hour = new Date().getHours();
-                if (hour < 8) gameStats.earlyBirdCount++;
-
+                if (new Date().getHours() < 8) gameStats.earlyBirdCount++;
                 gameStats.totalTasksCompleted++;
                 addXP(xpAmount);
 
                 setTimeout(async () => {
                     updateSyncStatus('syncing');
                     await deleteDoc(doc(db, `tasks_${category}`, id));
-                    
-                    if (task?.urgent) {
-                        const remaining = tasks.work.filter(t => t.urgent && t.id !== id);
-                        if (remaining.length === 0) stopTitleBlink();
-                    }
+                    if (task?.urgent && tasks.work.filter(t => t.urgent && t.id !== id).length === 0) stopTitleBlink();
                 }, 3000);
             }
         };
@@ -1676,10 +1544,8 @@
             const text = input.value.trim();
             if (!text) return;
 
-            const id = generateId();
             updateSyncStatus('syncing');
-            await setDoc(doc(db, 'dailyTasks', id), { text, completedToday: false, createdAt: Date.now() });
-
+            await setDoc(doc(db, 'dailyTasks', generateId()), { text, completedToday: false, createdAt: Date.now() });
             input.value = '';
             vibrate();
         };
@@ -1687,16 +1553,12 @@
         window.completeDailyTask = async function(id) {
             const task = dailyTasks.find(t => t.id === id);
             if (task && !task.completedToday) {
-                const taskEl = [...document.querySelectorAll('.daily-task')].find(el =>
-                    el.querySelector('.checkbox').getAttribute('onclick').includes(id)
-                );
+                const taskEl = [...document.querySelectorAll('.daily-task')].find(el => el.querySelector('.checkbox').getAttribute('onclick').includes(id));
                 if (taskEl) taskEl.classList.add('completed');
                 vibrate();
                 playSound('complete');
 
-                const hour = new Date().getHours();
-                if (hour < 8) gameStats.earlyBirdCount++;
-
+                if (new Date().getHours() < 8) gameStats.earlyBirdCount++;
                 gameStats.totalTasksCompleted++;
                 addXP(10);
 
@@ -1716,9 +1578,7 @@
             await setDoc(doc(db, 'dailyTasks', id), { ...task, text: newText });
         };
 
-        window.handleEditKeydown = function(event, element) {
-            if (event.key === 'Enter') { event.preventDefault(); element.blur(); }
-        };
+        window.handleEditKeydown = function(event, element) { if (event.key === 'Enter') { event.preventDefault(); element.blur(); } };
 
         window.deleteDailyTask = async function(id) {
             updateSyncStatus('syncing');
@@ -1729,59 +1589,70 @@
         window.addWish = async function() {
             const titleInput = document.getElementById('wishTitleInput');
             const urlInput = document.getElementById('wishUrlInput');
+            const addBtn = document.getElementById('addWishBtn');
             const title = titleInput.value.trim();
             const url = urlInput.value.trim();
 
             if (!title) return;
 
-            const id = generateId();
+            addBtn.disabled = true;
+            addBtn.textContent = 'Subiendo...';
+
+            let imageData = null;
+            if (pendingImageFile) {
+                imageData = await uploadImage(pendingImageFile);
+            }
+
             updateSyncStatus('syncing');
-            await setDoc(doc(db, 'wishlist', id), { title, url, createdAt: Date.now() });
+            const wishData = { title, url, createdAt: Date.now() };
+            if (imageData) {
+                wishData.imageUrl = imageData.url;
+                wishData.imagePath = imageData.path;
+            }
+
+            await setDoc(doc(db, 'wishlist', generateId()), wishData);
 
             titleInput.value = '';
             urlInput.value = '';
+            removeImage();
             titleInput.focus();
             vibrate();
+
+            addBtn.disabled = false;
+            addBtn.textContent = 'Agregar';
         };
 
-        window.deleteWish = async function(id) {
+        window.deleteWish = async function(id, imagePath) {
             updateSyncStatus('syncing');
+            
+            // Delete image from storage if exists
+            if (imagePath) {
+                try {
+                    const imageRef = ref(storage, imagePath);
+                    await deleteObject(imageRef);
+                } catch (e) { console.log('Image already deleted or not found'); }
+            }
+            
             await deleteDoc(doc(db, 'wishlist', id));
             vibrate();
         };
 
         // ==================== EVENT LISTENERS ====================
         ['personalInput', 'workInput', 'businessInput'].forEach(id => {
-            document.getElementById(id).addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') window.addTask(id.replace('Input', ''));
-            });
+            document.getElementById(id).addEventListener('keypress', (e) => { if (e.key === 'Enter') window.addTask(id.replace('Input', '')); });
         });
 
-        document.getElementById('dailyTaskInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') window.addDailyTask();
-        });
-
-        document.getElementById('wishTitleInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') document.getElementById('wishUrlInput').focus();
-        });
-
-        document.getElementById('wishUrlInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') window.addWish();
-        });
+        document.getElementById('dailyTaskInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') window.addDailyTask(); });
+        document.getElementById('wishTitleInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') document.getElementById('wishUrlInput').focus(); });
+        document.getElementById('wishUrlInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') window.addWish(); });
 
         // ==================== PWA ====================
-        function isStandalone() {
-            return window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
-        }
-
-        function isIOS() { return /iPad|iPhone|iPod/.test(navigator.userAgent); }
-
         window.hideInstallPrompt = function() {
             document.getElementById('installPrompt').classList.remove('show');
             localStorage.setItem('installPromptDismissed', 'true');
         };
 
-        if (isIOS() && !isStandalone() && !localStorage.getItem('installPromptDismissed')) {
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.navigator.standalone && !localStorage.getItem('installPromptDismissed')) {
             setTimeout(() => document.getElementById('installPrompt').classList.add('show'), 3000);
         }
 
