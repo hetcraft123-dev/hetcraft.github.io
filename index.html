@@ -45,6 +45,8 @@
             --accent-urgent-glow: rgba(255, 23, 68, 0.4);
             --accent-xp: #ffd700;
             --accent-xp-glow: rgba(255, 215, 0, 0.4);
+            --accent-progress: #29b6f6;
+            --accent-progress-glow: rgba(41, 182, 246, 0.3);
             --success: #00c853;
             --border: #252529;
             --border-daily: #2a2520;
@@ -403,11 +405,23 @@
             animation: urgentPulse 2s ease-in-out infinite;
         }
 
+        .task-item.in-progress {
+            background: rgba(41, 182, 246, 0.08);
+            border-color: var(--accent-progress);
+            order: -1;
+        }
+
+        .task-item.in-progress.urgent {
+            background: linear-gradient(135deg, rgba(255, 23, 68, 0.08) 0%, rgba(41, 182, 246, 0.08) 100%);
+            border-color: var(--accent-progress);
+        }
+
         @keyframes urgentPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(255, 23, 68, 0); } 50% { box-shadow: 0 0 15px 2px rgba(255, 23, 68, 0.3); } }
         @keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         .task-item:hover { background: var(--bg-hover); border-color: #303035; }
         .task-item.urgent:hover { background: rgba(255, 23, 68, 0.12); border-color: var(--accent-urgent); }
+        .task-item.in-progress:hover { background: rgba(41, 182, 246, 0.12); border-color: var(--accent-progress); }
 
         .task-item.completed { animation: fadeOut 0.5s ease forwards; animation-delay: 2.5s; }
         .task-item.daily-task.completed { animation: fadeOutDaily 0.5s ease forwards; animation-delay: 2.5s; }
@@ -439,11 +453,39 @@
         .checkmark { opacity: 0; color: white; font-size: 12px; transition: all 0.2s ease; }
         .task-item.completed .checkmark { opacity: 1; }
 
-        .task-text { flex: 1; font-size: 0.9rem; font-weight: 300; transition: all 0.3s ease; word-break: break-word; }
+        .task-text { 
+            flex: 1; 
+            font-size: 0.9rem; 
+            font-weight: 300; 
+            transition: all 0.3s ease; 
+            word-break: break-word;
+            cursor: text;
+            padding: 2px 6px;
+            margin: -2px -6px;
+            border-radius: 4px;
+        }
+        
+        .task-text:hover { background: rgba(255, 255, 255, 0.05); }
+        .task-text:focus { outline: none; background: rgba(61, 90, 254, 0.1); }
+        .column.work .task-text:focus { background: rgba(0, 191, 165, 0.1); }
+        .column.business .task-text:focus { background: rgba(170, 0, 255, 0.1); }
+        
         .task-item.urgent .task-text { color: var(--accent-urgent); font-weight: 500; }
+        .task-item.in-progress .task-text { color: var(--accent-progress); }
 
         .urgent-badge { font-size: 0.6rem; background: var(--accent-urgent); color: white; padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-weight: 600; margin-right: 6px; animation: blink 1s ease-in-out infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+        .progress-badge { 
+            font-size: 0.55rem; 
+            background: var(--accent-progress); 
+            color: white; 
+            padding: 2px 6px; 
+            border-radius: 4px; 
+            font-family: 'JetBrains Mono', monospace; 
+            font-weight: 600; 
+            margin-right: 6px;
+        }
 
         .task-text.editable { cursor: text; padding: 2px 6px; margin: -2px -6px; border-radius: 4px; }
         .task-text.editable:hover { background: rgba(255, 255, 255, 0.05); }
@@ -452,10 +494,24 @@
         .task-time { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--text-secondary); opacity: 0.6; }
         .task-xp { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--accent-xp); background: rgba(255, 215, 0, 0.15); padding: 2px 6px; border-radius: 4px; margin-left: 6px; }
 
-        .task-actions { display: flex; gap: 6px; }
+        .task-actions { display: flex; gap: 4px; }
 
-        .action-btn { background: transparent; border: none; color: var(--text-secondary); cursor: pointer; padding: 6px; font-size: 14px; transition: all 0.2s ease; border-radius: 4px; }
-        .action-btn:hover { color: #ff5252; background: rgba(255, 82, 82, 0.1); transform: none; box-shadow: none; }
+        .action-btn { 
+            background: transparent; 
+            border: none; 
+            color: var(--text-secondary); 
+            cursor: pointer; 
+            padding: 6px; 
+            font-size: 12px; 
+            transition: all 0.2s ease; 
+            border-radius: 4px;
+            opacity: 0.6;
+        }
+        
+        .action-btn:hover { opacity: 1; transform: none; box-shadow: none; }
+        .action-btn.delete:hover { color: #ff5252; background: rgba(255, 82, 82, 0.1); }
+        .action-btn.progress:hover { color: var(--accent-progress); background: rgba(41, 182, 246, 0.1); }
+        .action-btn.progress.active { color: var(--accent-progress); opacity: 1; background: rgba(41, 182, 246, 0.2); }
 
         .empty-state { text-align: center; padding: 30px 16px; color: var(--text-secondary); }
         .empty-state.small { padding: 20px 16px; }
@@ -546,57 +602,12 @@
         .wish-inputs { display: flex; flex-direction: column; gap: 10px; }
         .wish-inputs .input-container { background: var(--bg-primary); }
 
-        /* Image upload area */
-        .image-upload-area {
-            border: 2px dashed var(--border);
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .image-upload-area:hover { border-color: var(--accent-wish); background: rgba(255, 64, 129, 0.05); }
-        .image-upload-area.dragover { border-color: var(--accent-wish); background: rgba(255, 64, 129, 0.1); }
-        .image-upload-area.has-image { padding: 10px; }
-
-        .image-upload-placeholder { color: var(--text-secondary); font-size: 0.85rem; }
-        .image-upload-placeholder-icon { font-size: 2rem; margin-bottom: 8px; opacity: 0.5; }
-        .image-upload-placeholder-text { margin-bottom: 4px; }
-        .image-upload-placeholder-hint { font-size: 0.7rem; opacity: 0.6; }
-
-        .image-preview { max-width: 100%; max-height: 200px; border-radius: 8px; object-fit: contain; }
-        .image-preview-container { position: relative; display: inline-block; }
-        .image-remove-btn {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: var(--accent-urgent);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            font-size: 14px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .image-remove-btn:hover { transform: scale(1.1); box-shadow: none; }
-
-        input[type="file"] { display: none; }
-
         .add-wish-btn { width: 100%; background: var(--accent-wish); padding: 14px; margin-top: 6px; }
         .add-wish-btn:hover { box-shadow: 0 4px 20px var(--accent-wish-glow); }
-        .add-wish-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
         .wish-item {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             gap: 14px;
             background: var(--bg-secondary);
             border: 1px solid rgba(255, 64, 129, 0.15);
@@ -607,17 +618,7 @@
         }
 
         .wish-item:hover { background: var(--bg-hover); border-color: rgba(255, 64, 129, 0.3); }
-
-        .wish-image {
-            width: 80px;
-            height: 80px;
-            border-radius: 8px;
-            object-fit: cover;
-            flex-shrink: 0;
-            background: var(--bg-primary);
-        }
-
-        .wish-icon { font-size: 1.4rem; flex-shrink: 0; padding-top: 4px; }
+        .wish-icon { font-size: 1.4rem; flex-shrink: 0; }
         .wish-info { flex: 1; min-width: 0; }
         .wish-title { font-size: 0.95rem; font-weight: 500; margin-bottom: 4px; word-break: break-word; }
 
@@ -634,7 +635,7 @@
         }
 
         .wish-url:hover { opacity: 1; text-decoration: underline; }
-        .wish-actions { display: flex; gap: 6px; flex-shrink: 0; }
+        .wish-actions { display: flex; gap: 6px; }
 
         .wish-action-btn {
             background: transparent;
@@ -757,26 +758,6 @@
         }
 
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* Upload progress */
-        .upload-progress {
-            width: 100%;
-            height: 4px;
-            background: var(--border);
-            border-radius: 2px;
-            margin-top: 10px;
-            overflow: hidden;
-            display: none;
-        }
-
-        .upload-progress.show { display: block; }
-
-        .upload-progress-bar {
-            height: 100%;
-            background: var(--accent-wish);
-            border-radius: 2px;
-            transition: width 0.3s ease;
-        }
     </style>
 </head>
 <body>
@@ -963,26 +944,7 @@
                     <div class="input-container wish">
                         <input type="url" id="wishUrlInput" placeholder="URL (opcional)" autocomplete="off">
                     </div>
-                    
-                    <!-- Image upload area -->
-                    <div class="image-upload-area" id="imageUploadArea" onclick="document.getElementById('imageFileInput').click()">
-                        <div class="image-upload-placeholder" id="uploadPlaceholder">
-                            <div class="image-upload-placeholder-icon">📷</div>
-                            <div class="image-upload-placeholder-text">Arrastra una imagen o haz clic para subir</div>
-                            <div class="image-upload-placeholder-hint">También puedes pegar con Ctrl+V</div>
-                        </div>
-                        <div class="image-preview-container" id="imagePreviewContainer" style="display: none;">
-                            <img class="image-preview" id="imagePreview" src="" alt="Preview">
-                            <button class="image-remove-btn" onclick="event.stopPropagation(); removeImage()">✕</button>
-                        </div>
-                    </div>
-                    <input type="file" id="imageFileInput" accept="image/*" onchange="handleFileSelect(event)">
-                    
-                    <div class="upload-progress" id="uploadProgress">
-                        <div class="upload-progress-bar" id="uploadProgressBar" style="width: 0%"></div>
-                    </div>
-                    
-                    <button class="add-wish-btn" id="addWishBtn" onclick="addWish()">Agregar</button>
+                    <button class="add-wish-btn" onclick="addWish()">Agregar</button>
                 </div>
             </div>
             <div class="tasks-header">
@@ -1003,7 +965,6 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
         import { getFirestore, collection, doc, setDoc, getDoc, deleteDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDetXdN-ujotpEY7HNJMQB2JEOYooLxpkk",
@@ -1016,14 +977,12 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const storage = getStorage(app);
 
         // ==================== STATE ====================
         let tasks = { personal: [], work: [], business: [] };
         let dailyTasks = [];
         let wishlist = [];
         let gameStats = { xp: 0, level: 1, streak: 0, lastCompletedDate: null, achievements: [], totalTasksCompleted: 0, dailyCompletions: 0, earlyBirdCount: 0 };
-        let pendingImageFile = null;
         let isOnline = navigator.onLine;
         let urgentInterval = null;
         let originalTitle = "Tareas";
@@ -1077,97 +1036,6 @@
             gain.gain.setValueAtTime(volume, audioContext.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
             osc.start(audioContext.currentTime); osc.stop(audioContext.currentTime + duration);
-        }
-
-        // ==================== IMAGE HANDLING ====================
-        const imageUploadArea = document.getElementById('imageUploadArea');
-        const imagePreview = document.getElementById('imagePreview');
-        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-        const uploadPlaceholder = document.getElementById('uploadPlaceholder');
-        const uploadProgress = document.getElementById('uploadProgress');
-        const uploadProgressBar = document.getElementById('uploadProgressBar');
-
-        // Drag and drop
-        imageUploadArea.addEventListener('dragover', (e) => { e.preventDefault(); imageUploadArea.classList.add('dragover'); });
-        imageUploadArea.addEventListener('dragleave', () => imageUploadArea.classList.remove('dragover'));
-        imageUploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            imageUploadArea.classList.remove('dragover');
-            const file = e.dataTransfer.files[0];
-            if (file && file.type.startsWith('image/')) handleImageFile(file);
-        });
-
-        // Paste from clipboard
-        document.addEventListener('paste', (e) => {
-            const wishlistPage = document.getElementById('wishlistPage');
-            if (!wishlistPage.classList.contains('active')) return;
-            
-            const items = e.clipboardData.items;
-            for (let item of items) {
-                if (item.type.startsWith('image/')) {
-                    const file = item.getAsFile();
-                    handleImageFile(file);
-                    break;
-                }
-            }
-        });
-
-        window.handleFileSelect = function(e) {
-            const file = e.target.files[0];
-            if (file) handleImageFile(file);
-        };
-
-        function handleImageFile(file) {
-            if (!file.type.startsWith('image/')) return;
-            
-            pendingImageFile = file;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                imagePreview.src = e.target.result;
-                imagePreviewContainer.style.display = 'inline-block';
-                uploadPlaceholder.style.display = 'none';
-                imageUploadArea.classList.add('has-image');
-            };
-            reader.readAsDataURL(file);
-        }
-
-        window.removeImage = function() {
-            pendingImageFile = null;
-            imagePreview.src = '';
-            imagePreviewContainer.style.display = 'none';
-            uploadPlaceholder.style.display = 'block';
-            imageUploadArea.classList.remove('has-image');
-            document.getElementById('imageFileInput').value = '';
-        };
-
-        async function uploadImage(file) {
-            const fileName = `wishlist/${Date.now()}_${file.name}`;
-            const storageRef = ref(storage, fileName);
-            
-            uploadProgress.classList.add('show');
-            uploadProgressBar.style.width = '0%';
-            
-            try {
-                // Simulate progress since uploadBytes doesn't provide progress
-                let progress = 0;
-                const progressInterval = setInterval(() => {
-                    progress += 10;
-                    if (progress <= 90) uploadProgressBar.style.width = progress + '%';
-                }, 100);
-
-                await uploadBytes(storageRef, file);
-                clearInterval(progressInterval);
-                uploadProgressBar.style.width = '100%';
-                
-                const downloadURL = await getDownloadURL(storageRef);
-                
-                setTimeout(() => uploadProgress.classList.remove('show'), 500);
-                return { url: downloadURL, path: fileName };
-            } catch (error) {
-                console.error('Upload error:', error);
-                uploadProgress.classList.remove('show');
-                return null;
-            }
         }
 
         // ==================== GAMIFICATION ====================
@@ -1390,24 +1258,36 @@
             const count = document.getElementById(`${category}Count`);
             const categoryTasks = tasks[category] || [];
 
+            // Sort: in-progress first, then by createdAt
+            const sortedTasks = [...categoryTasks].sort((a, b) => {
+                if (a.inProgress && !b.inProgress) return -1;
+                if (!a.inProgress && b.inProgress) return 1;
+                return b.createdAt - a.createdAt;
+            });
+
             list.innerHTML = '';
-            if (categoryTasks.length === 0) {
+            if (sortedTasks.length === 0) {
                 list.innerHTML = `<div class="empty-state small"><div class="empty-icon small">✓</div><p class="empty-text">Sin pendientes</p></div>`;
             } else {
-                categoryTasks.forEach((task) => {
+                sortedTasks.forEach((task) => {
                     const xpAmount = task.urgent ? 30 : 10;
                     const taskEl = document.createElement('div');
-                    taskEl.className = `task-item${task.urgent ? ' urgent' : ''}`;
+                    taskEl.className = `task-item${task.urgent ? ' urgent' : ''}${task.inProgress ? ' in-progress' : ''}`;
                     taskEl.innerHTML = `
                         <div class="checkbox" onclick="completeTask('${category}', '${task.id}')"><span class="checkmark">✓</span></div>
-                        <span class="task-text">${task.urgent ? '<span class="urgent-badge">URGENTE</span>' : ''}${escapeHtml(task.text)}</span>
+                        <span class="task-text" contenteditable="true" onblur="editTask('${category}', '${task.id}', this)" onkeydown="handleTaskKeydown(event, this)">
+                            ${task.inProgress ? '<span class="progress-badge">EN PROGRESO</span>' : ''}${task.urgent ? '<span class="urgent-badge">URGENTE</span>' : ''}${escapeHtml(task.text)}
+                        </span>
                         <span class="task-xp">+${xpAmount} XP</span>
-                        <span class="task-time">${task.time || ''}</span>
+                        <div class="task-actions">
+                            <button class="action-btn progress ${task.inProgress ? 'active' : ''}" onclick="toggleProgress('${category}', '${task.id}')" title="En progreso">▶</button>
+                            <button class="action-btn delete" onclick="deleteTask('${category}', '${task.id}')" title="Eliminar">✕</button>
+                        </div>
                     `;
                     list.appendChild(taskEl);
                 });
             }
-            count.textContent = categoryTasks.length;
+            count.textContent = sortedTasks.length;
         }
 
         function renderDailyTasks() {
@@ -1425,7 +1305,7 @@
                         <div class="checkbox" onclick="completeDailyTask('${task.id}')"><span class="checkmark">✓</span></div>
                         <span class="task-text editable" contenteditable="true" onblur="editDailyTask('${task.id}', this)" onkeydown="handleEditKeydown(event, this)">${escapeHtml(task.text)}</span>
                         <span class="task-xp">+10 XP</span>
-                        <div class="task-actions"><button class="action-btn" onclick="deleteDailyTask('${task.id}')">✕</button></div>
+                        <div class="task-actions"><button class="action-btn delete" onclick="deleteDailyTask('${task.id}')">✕</button></div>
                     `;
                     list.appendChild(taskEl);
                 });
@@ -1446,14 +1326,14 @@
                     const wishEl = document.createElement('div');
                     wishEl.className = 'wish-item';
                     wishEl.innerHTML = `
-                        ${item.imageUrl ? `<img class="wish-image" src="${item.imageUrl}" alt="${escapeHtml(item.title)}" onerror="this.style.display='none'">` : '<span class="wish-icon">🛒</span>'}
+                        <span class="wish-icon">🛒</span>
                         <div class="wish-info">
                             <div class="wish-title">${escapeHtml(item.title)}</div>
                             ${item.url ? `<a href="${escapeHtml(item.url)}" target="_blank" class="wish-url">${escapeHtml(item.url)}</a>` : ''}
                         </div>
                         <div class="wish-actions">
                             ${item.url ? `<button class="wish-action-btn open" onclick="window.open('${escapeHtml(item.url)}', '_blank')">🔗</button>` : ''}
-                            <button class="wish-action-btn delete" onclick="deleteWish('${item.id}', '${item.imagePath || ''}')">✕</button>
+                            <button class="wish-action-btn delete" onclick="deleteWish('${item.id}')">✕</button>
                         </div>
                     `;
                     list.appendChild(wishEl);
@@ -1505,7 +1385,7 @@
 
             const now = new Date();
             const time = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-            const taskData = { text, time, createdAt: Date.now() };
+            const taskData = { text, time, createdAt: Date.now(), inProgress: false };
             if (category === 'work' && urgent) taskData.urgent = true;
 
             updateSyncStatus('syncing');
@@ -1536,6 +1416,42 @@
                     await deleteDoc(doc(db, `tasks_${category}`, id));
                     if (task?.urgent && tasks.work.filter(t => t.urgent && t.id !== id).length === 0) stopTitleBlink();
                 }, 3000);
+            }
+        };
+
+        window.deleteTask = async function(category, id) {
+            updateSyncStatus('syncing');
+            await deleteDoc(doc(db, `tasks_${category}`, id));
+            vibrate();
+        };
+
+        window.editTask = async function(category, id, element) {
+            // Get text without badges
+            let newText = element.textContent.trim();
+            newText = newText.replace('EN PROGRESO', '').replace('URGENTE', '').trim();
+            
+            const task = tasks[category].find(t => t.id === id);
+            if (!newText || !task) { 
+                renderTasks(category); // Re-render to restore original
+                return; 
+            }
+            
+            if (newText !== task.text) {
+                updateSyncStatus('syncing');
+                await setDoc(doc(db, `tasks_${category}`, id), { ...task, text: newText });
+            }
+        };
+
+        window.handleTaskKeydown = function(event, element) {
+            if (event.key === 'Enter') { event.preventDefault(); element.blur(); }
+        };
+
+        window.toggleProgress = async function(category, id) {
+            const task = tasks[category].find(t => t.id === id);
+            if (task) {
+                updateSyncStatus('syncing');
+                await setDoc(doc(db, `tasks_${category}`, id), { ...task, inProgress: !task.inProgress });
+                vibrate();
             }
         };
 
@@ -1589,50 +1505,22 @@
         window.addWish = async function() {
             const titleInput = document.getElementById('wishTitleInput');
             const urlInput = document.getElementById('wishUrlInput');
-            const addBtn = document.getElementById('addWishBtn');
             const title = titleInput.value.trim();
             const url = urlInput.value.trim();
 
             if (!title) return;
 
-            addBtn.disabled = true;
-            addBtn.textContent = 'Subiendo...';
-
-            let imageData = null;
-            if (pendingImageFile) {
-                imageData = await uploadImage(pendingImageFile);
-            }
-
             updateSyncStatus('syncing');
-            const wishData = { title, url, createdAt: Date.now() };
-            if (imageData) {
-                wishData.imageUrl = imageData.url;
-                wishData.imagePath = imageData.path;
-            }
-
-            await setDoc(doc(db, 'wishlist', generateId()), wishData);
+            await setDoc(doc(db, 'wishlist', generateId()), { title, url, createdAt: Date.now() });
 
             titleInput.value = '';
             urlInput.value = '';
-            removeImage();
             titleInput.focus();
             vibrate();
-
-            addBtn.disabled = false;
-            addBtn.textContent = 'Agregar';
         };
 
-        window.deleteWish = async function(id, imagePath) {
+        window.deleteWish = async function(id) {
             updateSyncStatus('syncing');
-            
-            // Delete image from storage if exists
-            if (imagePath) {
-                try {
-                    const imageRef = ref(storage, imagePath);
-                    await deleteObject(imageRef);
-                } catch (e) { console.log('Image already deleted or not found'); }
-            }
-            
             await deleteDoc(doc(db, 'wishlist', id));
             vibrate();
         };
