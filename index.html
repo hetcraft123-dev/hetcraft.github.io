@@ -69,6 +69,16 @@
                 radial-gradient(circle at 80% 80%, rgba(170, 0, 255, 0.04) 0%, transparent 40%);
             overscroll-behavior: none;
         }
+        .debts-btn{
+  position:fixed; bottom:calc(24px + var(--safe-bottom)); left:20px;
+  background:#ffb020; color:#0a0a0b; border:none; border-radius:28px;
+  padding:14px 22px; font-family:'JetBrains Mono',monospace; font-size:.8rem;
+  font-weight:700; cursor:pointer; text-decoration:none;
+  box-shadow:0 4px 20px rgba(255,176,32,.35); transition:.3s; z-index:1000;
+  display:flex; align-items:center; gap:8px;
+}
+.debts-btn:hover{transform:translateY(-3px); box-shadow:0 8px 30px rgba(255,176,32,.45)}
+.debts-btn:active{transform:scale(.95)}
 
         .page { display: none; animation: fadeIn 0.3s ease; }
         .page.active { display: block; }
